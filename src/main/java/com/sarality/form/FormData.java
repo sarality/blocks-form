@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class FormFieldData {
+public class FormData {
 
   private final Map<Integer, String> fieldValueMap = new HashMap<>();
 

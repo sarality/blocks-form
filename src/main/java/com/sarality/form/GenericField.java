@@ -7,20 +7,20 @@ package com.sarality.form;
  */
 public class GenericField implements FormField {
   private final int fieldId;
-  private final FieldType fieldType;
+  private final ControlType fieldType;
 
-  public GenericField(int fieldId, FieldType fieldType) {
+  public GenericField(int fieldId, ControlType fieldType) {
     this.fieldId = fieldId;
     this.fieldType = fieldType;
   }
 
   @Override
-  public int getFieldId() {
+  public int getViewId() {
     return fieldId;
   }
 
   @Override
-  public FieldType getFieldType() {
+  public ControlType getControlType() {
     return fieldType;
   }
 }

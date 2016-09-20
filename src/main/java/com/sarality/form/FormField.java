@@ -1,5 +1,7 @@
 package com.sarality.form;
 
+import java.util.List;
+
 /**
  * Interface for enumerations that define fields of a form.
  *
@@ -7,7 +9,9 @@ package com.sarality.form;
  */
 public interface FormField {
 
-  int getFieldId();
+  int getViewId();
 
-  FieldType getFieldType();
+  List<Integer> getChildViewIdList();
+
+  ControlType getControlType();
 }
