@@ -12,12 +12,20 @@ public class FormData {
 
   private final Map<Integer, String> fieldValueMap = new HashMap<>();
 
+  public String getString(FormField field) {
+    return getString(field.getViewId());
+  }
+
   public String getString(int fieldId) {
     return getValue(fieldId);
   }
 
   public void setString(FormField field, String value) {
-    addValue(field.getViewId(), value);
+    addValue(field, value);
+  }
+
+  public Long getLong(FormField field) {
+    return getLong(field.getViewId());
   }
 
   public Long getLong(int fieldId) {
@@ -30,10 +38,14 @@ public class FormData {
 
   public void setLong(FormField field, Long value) {
     if (value != null) {
-      addValue(field.getViewId(), String.valueOf(value));
+      addValue(field, String.valueOf(value));
     } else {
-      addValue(field.getViewId(), null);
+      addValue(field, null);
     }
+  }
+
+  public Integer getInt(FormField field) {
+    return getInt(field.getViewId());
   }
 
   public Integer getInt(int fieldId) {
@@ -46,10 +58,14 @@ public class FormData {
 
   public void setInt(FormField field, Integer value) {
     if (value != null) {
-      addValue(field.getViewId(), String.valueOf(value));
+      addValue(field, String.valueOf(value));
     } else {
-      addValue(field.getViewId(), null);
+      addValue(field, null);
     }
+  }
+
+  public <T extends Enum<T>> T getEnum(FormField field, Class<T> enumClass) {
+    return getEnum(field.getViewId(), enumClass);
   }
 
   public <T extends Enum<T>> T getEnum(int fieldId, Class<T> enumClass) {
@@ -62,14 +78,22 @@ public class FormData {
 
   public <T extends Enum<T>> void setEnum(FormField field, T value) {
     if (value != null) {
-      addValue(field.getViewId(), value.name());
+      addValue(field, value.name());
     } else {
-      addValue(field.getViewId(), null);
+      addValue(field, null);
     }
+  }
+
+  private void addValue(FormField field, String value) {
+    addValue(field.getViewId(), value);
   }
 
   void addValue(int fieldId, String value) {
     fieldValueMap.put(fieldId, value);
+  }
+
+  private String getValue(FormField field) {
+    return getValue(field.getViewId());
   }
 
   private String getValue(int fieldId) {
