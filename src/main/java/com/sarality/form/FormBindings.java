@@ -49,7 +49,7 @@ public class FormBindings {
   public void populateForm(FormData data) {
     for (FormField field : fieldList) {
       ViewBinding binding = viewBindingMap.get(field.getViewId());
-      String value = data.getString(field.getViewId());
+      String value = data.getString(field);
       binding.setValue(value);
     }
   }
