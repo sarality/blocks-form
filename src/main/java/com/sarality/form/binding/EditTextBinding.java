@@ -25,7 +25,7 @@ public class EditTextBinding implements ViewBinding {
   }
 
   @Override
-  public void initBinding(Activity activity) {
+  public void initBinding(Activity activity, BindingParameters parameters) {
     editText = (EditText) activity.findViewById(viewId);
   }
 

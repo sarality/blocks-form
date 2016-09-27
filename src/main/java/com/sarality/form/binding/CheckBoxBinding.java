@@ -25,7 +25,7 @@ public class CheckBoxBinding implements ViewBinding {
   }
 
   @Override
-  public void initBinding(Activity activity) {
+  public void initBinding(Activity activity, BindingParameters parameters) {
     checkBox = (CheckBox) activity.findViewById(viewId);
   }
 

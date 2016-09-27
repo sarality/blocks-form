@@ -30,7 +30,7 @@ public class FormDataReader {
 
   public void init(Activity activity) {
     for (ViewBinding binding : bindingList) {
-      binding.initBinding(activity);
+      binding.initBinding(activity, null);
     }
   }
 
