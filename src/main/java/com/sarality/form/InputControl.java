@@ -4,6 +4,7 @@ import com.sarality.form.binding.CheckBoxBinding;
 import com.sarality.form.binding.EditTextBinding;
 import com.sarality.form.binding.ViewBindingFactory;
 import com.sarality.form.binding.RadioButtonBinding;
+import com.sarality.form.binding.ViewTagBinding;
 
 /**
  * Enumeration for the Type of Field provided by the Android System.
@@ -13,7 +14,8 @@ import com.sarality.form.binding.RadioButtonBinding;
 public enum InputControl implements ControlType {
   CHECK_BOX(new CheckBoxBinding.Factory()),
   EDIT_TEXT(new EditTextBinding.Factory()),
-  RADIO_BUTTON(new RadioButtonBinding.Factory());
+  RADIO_BUTTON(new RadioButtonBinding.Factory()),
+  VIEW_TAG(new ViewTagBinding.Factory());
 
   private final ViewBindingFactory bindingFactory;
 
