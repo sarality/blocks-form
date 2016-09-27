@@ -32,7 +32,7 @@ public class RadioButtonBinding implements ViewBinding {
   }
 
   @Override
-  public void initBinding(Activity activity) {
+  public void initBinding(Activity activity, BindingParameters parameters) {
     RadioGroup radioGroup = (RadioGroup) activity.findViewById(fieldId);
     if (childFieldIdList != null) {
       for (Integer childFieldId : childFieldIdList) {

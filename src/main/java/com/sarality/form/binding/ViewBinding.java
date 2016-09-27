@@ -11,7 +11,7 @@ public interface ViewBinding {
 
   int getViewId();
 
-  void initBinding(Activity activity);
+  void initBinding(Activity activity, BindingParameters parameters);
 
    String getValue();
 

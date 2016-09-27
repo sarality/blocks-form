@@ -2,6 +2,8 @@ package com.sarality.form;
 
 import android.app.Activity;
 
+import com.sarality.form.binding.BindingConfig;
+import com.sarality.form.binding.BindingParameters;
 import com.sarality.form.binding.ViewBinding;
 import com.sarality.form.binding.ViewBindingFactory;
 
@@ -19,20 +21,37 @@ import java.util.Map;
 public class FormBindings {
 
   private final Map<Integer, ViewBinding> viewBindingMap = new HashMap<>();
+  private final Map<Integer, BindingParameters> viewBindingParametersMap = new HashMap<>();
   private final List<FormField> fieldList = new ArrayList<>();
 
-  public FormBindings(FormField... fields) {
-    fieldList.addAll(Arrays.asList(fields));
+  public FormBindings(List<FormField> formFieldList, List<BindingConfig> bindingConfigList) {
+    fieldList.addAll(formFieldList);
     for (FormField field : fieldList) {
       ViewBindingFactory bindingFactory = field.getControlType().getBindingFactory();
       ViewBinding binding = bindingFactory.createBinding(field);
       viewBindingMap.put(field.getViewId(), binding);
     }
+    if (bindingConfigList != null) {
+      for (BindingConfig bindingConfig : bindingConfigList) {
+        registerParameters(bindingConfig.getField(), bindingConfig.getParameters());
+      }
+    }
+  }
+
+  public FormBindings(FormField... fields) {
+    this(Arrays.asList(fields), new ArrayList<BindingConfig>());
+  }
+
+  public FormBindings registerParameters(FormField field, BindingParameters parameters) {
+    viewBindingParametersMap.put(field.getViewId(), parameters);
+    return this;
   }
 
   public void init(Activity activity) {
-    for (ViewBinding binding : viewBindingMap.values()) {
-      binding.initBinding(activity);
+    for (Integer viewId : viewBindingMap.keySet()) {
+      ViewBinding binding = viewBindingMap.get(viewId);
+      BindingParameters parameters = viewBindingParametersMap.get(viewId);
+      binding.initBinding(activity, parameters);
     }
   }
 
