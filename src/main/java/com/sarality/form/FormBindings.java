@@ -42,6 +42,18 @@ public class FormBindings {
     this(Arrays.asList(fields), new ArrayList<BindingConfig>());
   }
 
+  public FormBindings excludeFields(FormField... fields) {
+    if (fields != null) {
+      for (FormField field : fields) {
+        fieldList.remove(field);
+        int fieldId = field.getViewId();
+        viewBindingMap.remove(fieldId);
+        viewBindingParametersMap.remove(fieldId);
+      }
+    }
+    return this;
+  }
+
   public FormBindings registerParameters(FormField field, BindingParameters parameters) {
     viewBindingParametersMap.put(field.getViewId(), parameters);
     return this;
