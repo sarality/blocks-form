@@ -9,6 +9,8 @@ import java.util.List;
  */
 public interface FormField {
 
+  String getName();
+
   int getViewId();
 
   List<Integer> getChildViewIdList();
