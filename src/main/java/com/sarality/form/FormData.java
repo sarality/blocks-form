@@ -1,6 +1,7 @@
 package com.sarality.form;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +34,7 @@ public class FormData {
     if (value == null) {
       return null;
     }
-    return Long.getLong(value);
+    return Long.valueOf(value);
   }
 
   public void setLong(FormField field, Long value) {
@@ -53,7 +54,7 @@ public class FormData {
     if (value == null) {
       return null;
     }
-    return Integer.getInteger(value);
+    return Integer.valueOf(value);
   }
 
   public void setInt(FormField field, Integer value) {
@@ -98,5 +99,16 @@ public class FormData {
 
   private String getValue(int fieldId) {
     return fieldValueMap.get(fieldId);
+  }
+
+  public String displayString(List<FormField> fields) {
+    StringBuilder builder = new StringBuilder();
+    if (fields != null) {
+      for (FormField field : fields) {
+        builder.append(field.getName()).append(" (").append(field.getViewId()).append(") : ");
+        builder.append(getValue(field)).append("\n");
+      }
+    }
+    return builder.toString();
   }
 }
