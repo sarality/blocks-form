@@ -65,6 +65,26 @@ public class FormData {
     }
   }
 
+  public Double getDouble(FormField field) { return getDouble(field.getViewId()); }
+
+  public Double getDouble(int fieldId) {
+    String value = getValue(fieldId);
+    if (value == null) {
+      return null;
+    } else if (value.equals("")) {
+      return null;
+    }
+    return Double.valueOf(value);
+  }
+
+  public void setDouble(FormField field, Double value) {
+    if (value == null) {
+      addValue(field, null);
+    } else {
+      addValue(field, String.valueOf(value));
+    }
+  }
+
   public <T extends Enum<T>> T getEnum(FormField field, Class<T> enumClass) {
     return getEnum(field.getViewId(), enumClass);
   }
