@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Add description here
+ * Base implementation for a binding between a Field and a UI Control for the field.
  *
  * @author abhideep@ (Abhideep Singh)
  */
