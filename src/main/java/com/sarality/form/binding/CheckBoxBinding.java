@@ -1,6 +1,5 @@
 package com.sarality.form.binding;
 
-import android.app.Activity;
 import android.widget.CheckBox;
 
 import com.sarality.form.FormField;
@@ -10,27 +9,15 @@ import com.sarality.form.FormField;
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class CheckBoxBinding implements ViewBinding {
+public class CheckBoxBinding<T> extends BaseViewBinding<CheckBox, T> {
 
-  private final int viewId;
-  private CheckBox checkBox;
-
-  public CheckBoxBinding(int viewId) {
-    this.viewId = viewId;
-  }
-
-  @Override
-  public int getViewId() {
-    return viewId;
-  }
-
-  @Override
-  public void initBinding(Activity activity, BindingParameters parameters) {
-    checkBox = (CheckBox) activity.findViewById(viewId);
+  private CheckBoxBinding(int viewId) {
+    super(viewId, null, null, null, null);
   }
 
   @Override
   public String getValue() {
+    CheckBox checkBox = getView();
     if (checkBox.isChecked()) {
       return checkBox.getText().toString();
     }
@@ -39,6 +26,7 @@ public class CheckBoxBinding implements ViewBinding {
 
   @Override
   public void setValue(String value) {
+    CheckBox checkBox = getView();
     boolean isChecked = value != null &&
         (value.equals(Boolean.TRUE.toString()) || value.equals(checkBox.getText()));
     checkBox.setChecked(isChecked);
@@ -51,5 +39,4 @@ public class CheckBoxBinding implements ViewBinding {
       return new CheckBoxBinding(field.getViewId());
     }
   }
-
 }
