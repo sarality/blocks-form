@@ -3,7 +3,6 @@ package com.sarality.form;
 import android.app.Activity;
 
 import com.sarality.form.binding.BindingConfig;
-import com.sarality.form.binding.BindingParameters;
 import com.sarality.form.binding.ViewBinding;
 import com.sarality.form.binding.ViewBindingFactory;
 
@@ -25,7 +24,7 @@ public class FormBindings {
   private static final Logger logger = LoggerFactory.getLogger(FormBindings.class);
 
   private final Map<Integer, ViewBinding> viewBindingMap = new HashMap<>();
-  private final Map<Integer, BindingParameters> viewBindingParametersMap = new HashMap<>();
+  private final Map<Integer, BindingConfig> bindingConfigMap = new HashMap<>();
   private final List<FormField> fieldList = new ArrayList<>();
   private final Map<Integer, FormField> fieldMap = new HashMap<>();
 
@@ -39,7 +38,8 @@ public class FormBindings {
     }
     if (bindingConfigList != null) {
       for (BindingConfig bindingConfig : bindingConfigList) {
-        registerParameters(bindingConfig.getField(), bindingConfig.getParameters());
+        FormField field = bindingConfig.getField();
+        bindingConfigMap.put(field.getViewId(), bindingConfig);
       }
     }
   }
@@ -51,22 +51,22 @@ public class FormBindings {
         int fieldId = field.getViewId();
         fieldMap.remove(fieldId);
         viewBindingMap.remove(fieldId);
-        viewBindingParametersMap.remove(fieldId);
+        bindingConfigMap.remove(fieldId);
       }
     }
     return this;
   }
 
-  public FormBindings registerParameters(FormField field, BindingParameters parameters) {
-    viewBindingParametersMap.put(field.getViewId(), parameters);
-    return this;
+  public ViewBinding getBinding(FormField field) {
+    return viewBindingMap.get(field.getViewId());
   }
 
+  @SuppressWarnings("unchecked")
   public void init(Activity activity) {
     for (Integer viewId : viewBindingMap.keySet()) {
       ViewBinding binding = viewBindingMap.get(viewId);
-      BindingParameters parameters = viewBindingParametersMap.get(viewId);
-      binding.initBinding(activity, parameters);
+      BindingConfig config = bindingConfigMap.get(viewId);
+      binding.initBinding(activity, config);
     }
   }
 
