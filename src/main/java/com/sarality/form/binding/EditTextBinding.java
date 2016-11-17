@@ -1,6 +1,5 @@
 package com.sarality.form.binding;
 
-import android.app.Activity;
 import android.widget.EditText;
 
 import com.sarality.form.FormField;
@@ -10,33 +9,20 @@ import com.sarality.form.FormField;
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class EditTextBinding implements ViewBinding {
+public class EditTextBinding<T> extends BaseViewBinding<EditText, T> {
 
-  private final int viewId;
-  private EditText editText;
-
-  public EditTextBinding(int viewId) {
-    this.viewId = viewId;
-  }
-
-  @Override
-  public int getViewId() {
-    return viewId;
-  }
-
-  @Override
-  public void initBinding(Activity activity, BindingParameters parameters) {
-    editText = (EditText) activity.findViewById(viewId);
+  private EditTextBinding(int viewId) {
+    super(viewId, null, null, null, null);
   }
 
   @Override
   public String getValue() {
-    return editText.getText().toString();
+    return getView().getText().toString();
   }
 
   @Override
   public void setValue(String value) {
-    editText.setText(value);
+    getView().setText(value);
   }
 
   public static class Factory implements ViewBindingFactory {
