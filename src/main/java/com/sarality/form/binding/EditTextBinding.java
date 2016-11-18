@@ -4,15 +4,22 @@ import android.widget.EditText;
 
 import com.sarality.form.FormField;
 
+import java.util.List;
+
 /**
  * Reads data from an EditText Input Control
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class EditTextBinding<T> extends BaseViewBinding<EditText, T> {
+public class EditTextBinding extends BaseViewBinding<EditText> {
 
   private EditTextBinding(int viewId) {
-    super(viewId, null, null, null, null);
+    super(viewId);
+  }
+
+  @Override
+  public boolean isMultiValueField() {
+    return false;
   }
 
   @Override
@@ -23,6 +30,16 @@ public class EditTextBinding<T> extends BaseViewBinding<EditText, T> {
   @Override
   public void setValue(String value) {
     getView().setText(value);
+  }
+
+  @Override
+  public List<String> getValueList() {
+    return null;
+  }
+
+  @Override
+  public void setValueList(List<String> textValueList) {
+    // No-op
   }
 
   public static class Factory implements ViewBindingFactory {

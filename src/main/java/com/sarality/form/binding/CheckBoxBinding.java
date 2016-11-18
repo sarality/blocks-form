@@ -4,15 +4,22 @@ import android.widget.CheckBox;
 
 import com.sarality.form.FormField;
 
+import java.util.List;
+
 /**
  * Reads data from an EditText Input Control
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class CheckBoxBinding<T> extends BaseViewBinding<CheckBox, T> {
+public class CheckBoxBinding extends BaseViewBinding<CheckBox> {
 
   private CheckBoxBinding(int viewId) {
-    super(viewId, null, null, null, null);
+    super(viewId);
+  }
+
+  @Override
+  public boolean isMultiValueField() {
+    return false;
   }
 
   @Override
@@ -30,6 +37,16 @@ public class CheckBoxBinding<T> extends BaseViewBinding<CheckBox, T> {
     boolean isChecked = value != null &&
         (value.equals(Boolean.TRUE.toString()) || value.equals(checkBox.getText()));
     checkBox.setChecked(isChecked);
+  }
+
+  @Override
+  public List<String> getValueList() {
+    return null;
+  }
+
+  @Override
+  public void setValueList(List<String> textValueList) {
+    // No-Op
   }
 
   public static class Factory implements ViewBindingFactory {

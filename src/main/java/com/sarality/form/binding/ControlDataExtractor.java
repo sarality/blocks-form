@@ -1,7 +1,6 @@
 package com.sarality.form.binding;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public interface ControlDataExtractor<V extends View> {
   String extractValue(Activity activity, V view);
 
   /**
-   * @return {@code true} if ocntrol is multi-valued, {@code false otherwise}
+   * @return {@code true} if control is multi-valued, {@code false otherwise}
    */
   boolean isMultiValue();
 
