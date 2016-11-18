@@ -1,12 +1,9 @@
 package com.sarality.form.binding;
 
-import android.app.Activity;
 import android.util.SparseArray;
-import android.view.View;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
