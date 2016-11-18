@@ -1,6 +1,5 @@
 package com.sarality.form;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,7 +11,6 @@ public class GenericField implements FormField {
 
   private final String name;
   private final int viewId;
-  private final List<Integer> childViewIdList = new ArrayList<>();
   private final ControlType controlType;
 
   public GenericField(String name, int viewId, ControlType controlType) {
@@ -23,9 +21,6 @@ public class GenericField implements FormField {
     this.name = name;
     this.viewId = viewId;
     this.controlType = controlType;
-    if (childViewIdList != null) {
-      this.childViewIdList.addAll(childViewIdList);
-    }
   }
 
   @Override
@@ -36,11 +31,6 @@ public class GenericField implements FormField {
   @Override
   public int getViewId() {
     return viewId;
-  }
-
-  @Override
-  public List<Integer> getChildViewIdList() {
-    return childViewIdList;
   }
 
   @Override
