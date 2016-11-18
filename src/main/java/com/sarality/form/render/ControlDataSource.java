@@ -11,10 +11,9 @@ import java.util.Map;
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class ControlDataSource<T> {
+public class ControlDataSource {
 
   private final List<String> dataList;
-  private final Map<String, T> dataMap = new HashMap<>();
 
   private final Map<String, String> valueMap = new HashMap<>();
   private final Map<String, String> reverseValueMap = new HashMap<>();
@@ -23,8 +22,7 @@ public class ControlDataSource<T> {
     this.dataList = dataList;
   }
 
-  public ControlDataSource<T> add(String label, String value, T data) {
-    dataMap.put(label, data);
+  public <T> ControlDataSource add(String label, String value) {
     valueMap.put(label, value);
     reverseValueMap.put(value, label);
     return this;

@@ -11,13 +11,9 @@ import com.sarality.form.render.ControlRenderer;
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public interface BindingConfig<V extends View, T> {
+public interface BindingConfig<V extends View> {
 
   FormField getField();
 
-  ControlDataExtractor<V> getExtractor();
-
-  ControlDataSource<T> getDataSource();
-
-  ControlRenderer<V, T> getRenderer();
+  BindingSpec<V> getBindingSpec();
 }

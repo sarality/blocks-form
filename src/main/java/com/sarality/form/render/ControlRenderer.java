@@ -7,9 +7,9 @@ import android.content.Context;
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public interface ControlRenderer<V, T> {
+public interface ControlRenderer<V> {
 
-  void setDataSource(ControlDataSource<T> dataSource);
+  void setDataSource(ControlDataSource dataSource);
 
   void render(Context context, V view);
 }
