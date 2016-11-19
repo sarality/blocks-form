@@ -2,6 +2,8 @@ package com.sarality.form.render;
 
 import android.content.Context;
 
+import com.sarality.form.value.ControlValueProvider;
+
 /**
  * Interface for classes that render a UI control.
  *
@@ -9,7 +11,7 @@ import android.content.Context;
  */
 public interface ControlRenderer<V> {
 
-  void setDataSource(ControlDataSource dataSource);
+  void setValueProvider(ControlValueProvider valueProvider);
 
   void render(Context context, V view);
 }

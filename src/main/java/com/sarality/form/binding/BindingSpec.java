@@ -2,8 +2,8 @@ package com.sarality.form.binding;
 
 import android.view.View;
 
-import com.sarality.form.render.ControlDataSource;
 import com.sarality.form.render.ControlRenderer;
+import com.sarality.form.value.ControlValueProvider;
 
 /**
  * Specification of a Field Binding that defines how data is extracted, displayed, and set.
@@ -13,43 +13,37 @@ import com.sarality.form.render.ControlRenderer;
 public class BindingSpec<V extends View> {
 
   private final ControlDataExtractor<V> extractor;
-  private final ViewValueMapping viewValueMapping;
+  private final ControlValueProvider valueProvider;
   private final ControlRenderer<V> renderer;
-  private final ControlDataSource dataSource;
 
-  public BindingSpec(ControlDataExtractor<V> extractor, ViewValueMapping viewValueMapping,
-      ControlRenderer<V> renderer, ControlDataSource dataSource) {
+  public BindingSpec(ControlDataExtractor<V> extractor, ControlValueProvider valueProvider,
+      ControlRenderer<V> renderer) {
     this.extractor = extractor;
-    this.viewValueMapping = viewValueMapping;
+    this.valueProvider = valueProvider;
     this.renderer = renderer;
-    this.dataSource = dataSource;
   }
 
   public BindingSpec(ControlDataExtractor<V> extractor) {
-    this(extractor, null, null, null);
+    this(extractor, null, null);
   }
 
-  public BindingSpec(ViewValueMapping viewValueMapping) {
-    this(null, viewValueMapping, null, null);
+  public BindingSpec(ControlValueProvider valueProvider) {
+    this(null, valueProvider, null);
   }
 
-  public BindingSpec(ControlRenderer<V> renderer, ControlDataSource dataSource) {
-    this(null, null, renderer, dataSource);
+  public BindingSpec(ControlRenderer<V> renderer) {
+    this(null, null, renderer);
   }
 
   public ControlDataExtractor<V> getExtractor() {
     return extractor;
   }
 
-  public ViewValueMapping getValueMapping() {
-    return viewValueMapping;
+  public ControlValueProvider getValueProvider() {
+    return valueProvider;
   }
 
   public ControlRenderer<V> getRenderer() {
     return renderer;
-  }
-
-  public ControlDataSource getDataSource() {
-    return dataSource;
   }
 }
