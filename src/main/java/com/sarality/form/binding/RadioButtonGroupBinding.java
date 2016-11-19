@@ -5,8 +5,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.sarality.form.FormField;
+import com.sarality.form.value.ControlValueProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,8 +36,8 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
 
     BindingSpec<RadioGroup> spec = getSpec();
     RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
-    if (spec != null && spec.getValueMapping() != null) {
-      ViewValueMapping mapping = spec.getValueMapping();
+    if (spec != null && spec.getValueProvider() != null) {
+      ControlValueProvider mapping = spec.getValueProvider();
       return mapping.getValue(viewId);
     } else {
       return radioButton.getText().toString();
@@ -59,8 +59,8 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
     BindingSpec<RadioGroup> spec = getSpec();
     RadioGroup radioGroup = getView();
 
-    if (spec != null && spec.getValueMapping() != null) {
-      ViewValueMapping mapping = spec.getValueMapping();
+    if (spec != null && spec.getValueProvider() != null) {
+      ControlValueProvider mapping = spec.getValueProvider();
       int selectedButoonId = mapping.getViewId(value);
       for (Integer viewId : mapping.getViewIds()) {
         RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
