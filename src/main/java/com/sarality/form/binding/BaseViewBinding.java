@@ -3,7 +3,9 @@ package com.sarality.form.binding;
 import android.app.Activity;
 import android.view.View;
 
+import com.sarality.form.FormField;
 import com.sarality.form.render.ControlRenderer;
+import com.sarality.form.value.ControlValueProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,15 +19,18 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
 
   public static final Logger logger = LoggerFactory.getLogger(BaseViewBinding.class);
 
+  private final FormField field;
   private final int viewId;
 
   private Activity activity;
-  private BindingSpec<V> spec;
-
   private V view;
 
-  public BaseViewBinding(int viewId) {
-    this.viewId = viewId;
+  private BindingSpec<V> spec;
+  private ControlValueProvider valueProvider;
+
+  public BaseViewBinding(FormField field) {
+    this.field = field;
+    this.viewId = field.getViewId();
   }
 
   public V getView() {
@@ -43,17 +48,27 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
   }
 
   @Override
+  public FormField getField() {
+    return field;
+  }
+
+  @Override
   public int getViewId() {
     return viewId;
   }
 
 
   @Override
-  public ControlRenderer<V> getRenderer() {
+  public void setValueProvider(ControlValueProvider valueProvider) {
+    this.valueProvider = valueProvider;
     if (spec != null) {
-      return spec.getRenderer();
+      ControlRenderer<V> renderer = spec.getRenderer();
+
+      if (renderer != null) {
+        renderer.setValueProvider(this.valueProvider);
+        renderer.render(getActivity(), getView());
+      }
     }
-    return null;
   }
 
   public Activity getActivity() {

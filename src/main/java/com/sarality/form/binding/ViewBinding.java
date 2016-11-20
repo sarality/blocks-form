@@ -3,8 +3,8 @@ package com.sarality.form.binding;
 import android.app.Activity;
 import android.view.View;
 
-import com.sarality.form.render.ControlDataSource;
-import com.sarality.form.render.ControlRenderer;
+import com.sarality.form.FormField;
+import com.sarality.form.value.ControlValueProvider;
 
 import java.util.List;
 
@@ -14,6 +14,8 @@ import java.util.List;
  * @author abhideep@ (Abhideep Singh)
  */
 public interface ViewBinding<V extends View> {
+
+  FormField getField();
 
   int getViewId();
 
@@ -29,5 +31,5 @@ public interface ViewBinding<V extends View> {
 
   void setValueList(List<String> textValueList);
 
-  ControlRenderer<V> getRenderer();
+  void setValueProvider(ControlValueProvider valueProvider);
 }

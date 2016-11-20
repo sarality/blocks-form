@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
 
-  private RadioButtonGroupBinding(int viewId) {
-    super(viewId);
+  private RadioButtonGroupBinding(FormField field) {
+    super(field);
   }
 
   @Override
@@ -91,7 +91,7 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
 
     @Override
     public ViewBinding createBinding(FormField field) {
-      return new RadioButtonGroupBinding(field.getViewId());
+      return new RadioButtonGroupBinding(field);
     }
   }
 }
