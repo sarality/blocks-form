@@ -11,14 +11,14 @@ import java.util.Map;
  */
 public class FormData {
 
-  private final Map<Integer, String> fieldValueMap = new HashMap<>();
+  private final Map<String, String> fieldValueMap = new HashMap<>();
 
   public String getString(FormField field) {
-    return getString(field.getViewId());
+    return getString(field.getName());
   }
 
-  public String getString(int fieldId) {
-    return getValue(fieldId);
+  public String getString(String fieldName) {
+    return getValue(fieldName);
   }
 
   public void setString(FormField field, String value) {
@@ -26,11 +26,11 @@ public class FormData {
   }
 
   public Long getLong(FormField field) {
-    return getLong(field.getViewId());
+    return getLong(field.getName());
   }
 
-  public Long getLong(int fieldId) {
-    String value = getValue(fieldId);
+  public Long getLong(String fieldName) {
+    String value = getValue(fieldName);
     if (value == null) {
       return null;
     }
@@ -46,11 +46,11 @@ public class FormData {
   }
 
   public Integer getInt(FormField field) {
-    return getInt(field.getViewId());
+    return getInt(field.getName());
   }
 
-  public Integer getInt(int fieldId) {
-    String value = getValue(fieldId);
+  public Integer getInt(String fieldName) {
+    String value = getValue(fieldName);
     if (value == null) {
       return null;
     }
@@ -65,10 +65,10 @@ public class FormData {
     }
   }
 
-  public Double getDouble(FormField field) { return getDouble(field.getViewId()); }
+  public Double getDouble(FormField field) { return getDouble(field.getName()); }
 
-  public Double getDouble(int fieldId) {
-    String value = getValue(fieldId);
+  public Double getDouble(String fieldName) {
+    String value = getValue(fieldName);
     if (value == null) {
       return null;
     } else if (value.equals("")) {
@@ -86,11 +86,11 @@ public class FormData {
   }
 
   public <T extends Enum<T>> T getEnum(FormField field, Class<T> enumClass) {
-    return getEnum(field.getViewId(), enumClass);
+    return getEnum(field.getName(), enumClass);
   }
 
-  public <T extends Enum<T>> T getEnum(int fieldId, Class<T> enumClass) {
-    String value = getValue(fieldId);
+  public <T extends Enum<T>> T getEnum(String fieldName, Class<T> enumClass) {
+    String value = getValue(fieldName);
     if (value == null) {
       return null;
     }
@@ -105,20 +105,17 @@ public class FormData {
     }
   }
 
-  private void addValue(FormField field, String value) {
-    addValue(field.getViewId(), value);
+  void addValue(FormField field, String value) {
+    fieldValueMap.put(field.getName(), value);
   }
 
-  void addValue(int fieldId, String value) {
-    fieldValueMap.put(fieldId, value);
-  }
 
   private String getValue(FormField field) {
-    return getValue(field.getViewId());
+    return getValue(field.getName());
   }
 
-  private String getValue(int fieldId) {
-    return fieldValueMap.get(fieldId);
+  private String getValue(String fieldName) {
+    return fieldValueMap.get(fieldName);
   }
 
   public String displayString(List<FormField> fields) {
