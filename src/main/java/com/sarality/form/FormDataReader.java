@@ -37,9 +37,9 @@ public class FormDataReader {
   public FormData readData() {
     FormData data = new FormData();
     for (ViewBinding binding: bindingList) {
-      int fieldId = binding.getViewId();
+      FormField field = binding.getField();
       String text = binding.getValue();
-      data.addValue(fieldId, text);
+      data.addValue(field, text);
     }
     return data;
   }

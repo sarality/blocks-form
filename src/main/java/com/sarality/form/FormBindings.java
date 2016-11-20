@@ -23,23 +23,21 @@ public class FormBindings {
 
   private static final Logger logger = LoggerFactory.getLogger(FormBindings.class);
 
-  private final Map<Integer, ViewBinding> viewBindingMap = new HashMap<>();
-  private final Map<Integer, BindingConfig> bindingConfigMap = new HashMap<>();
+  private final Map<String, ViewBinding> viewBindingMap = new HashMap<>();
+  private final Map<String, BindingConfig> bindingConfigMap = new HashMap<>();
   private final List<FormField> fieldList = new ArrayList<>();
-  private final Map<Integer, FormField> fieldMap = new HashMap<>();
 
   public FormBindings(List<FormField> formFieldList, List<BindingConfig> bindingConfigList) {
     fieldList.addAll(formFieldList);
     for (FormField field : fieldList) {
       ViewBindingFactory bindingFactory = field.getControlType().getBindingFactory();
       ViewBinding binding = bindingFactory.createBinding(field);
-      viewBindingMap.put(field.getViewId(), binding);
-      fieldMap.put(field.getViewId(), field);
+      viewBindingMap.put(field.getName(), binding);
     }
     if (bindingConfigList != null) {
       for (BindingConfig bindingConfig : bindingConfigList) {
         FormField field = bindingConfig.getField();
-        bindingConfigMap.put(field.getViewId(), bindingConfig);
+        bindingConfigMap.put(field.getName(), bindingConfig);
       }
     }
   }
@@ -48,24 +46,23 @@ public class FormBindings {
     if (fields != null) {
       for (FormField field : fields) {
         fieldList.remove(field);
-        int fieldId = field.getViewId();
-        fieldMap.remove(fieldId);
-        viewBindingMap.remove(fieldId);
-        bindingConfigMap.remove(fieldId);
+        String fieldName = field.getName();
+        viewBindingMap.remove(fieldName);
+        bindingConfigMap.remove(fieldName);
       }
     }
     return this;
   }
 
   public ViewBinding getBinding(FormField field) {
-    return viewBindingMap.get(field.getViewId());
+    return viewBindingMap.get(field.getName());
   }
 
   @SuppressWarnings("unchecked")
   public void init(Activity activity) {
-    for (Integer viewId : viewBindingMap.keySet()) {
-      ViewBinding binding = viewBindingMap.get(viewId);
-      BindingConfig config = bindingConfigMap.get(viewId);
+    for (String name : viewBindingMap.keySet()) {
+      ViewBinding binding = viewBindingMap.get(name);
+      BindingConfig config = bindingConfigMap.get(name);
       binding.initBinding(activity, config);
     }
   }
@@ -73,17 +70,17 @@ public class FormBindings {
   public FormData readData() {
     FormData data = new FormData();
     for (ViewBinding binding: viewBindingMap.values()) {
-      int fieldId = binding.getViewId();
+      FormField field = binding.getField();
       String text = binding.getValue();
-      logger.trace("Read value {} for field {}", text, fieldMap.get(fieldId).getName());
-      data.addValue(fieldId, text);
+      logger.trace("Read value {} for field {}", text, field.getName());
+      data.addValue(field, text);
     }
     return data;
   }
 
   public void populateForm(FormData data) {
     for (FormField field : fieldList) {
-      ViewBinding binding = viewBindingMap.get(field.getViewId());
+      ViewBinding binding = viewBindingMap.get(field.getName());
       String value = data.getString(field);
       logger.trace("Setting value {} for field {}", value, field.getName());
       binding.setValue(value);
