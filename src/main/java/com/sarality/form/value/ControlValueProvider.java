@@ -29,6 +29,8 @@ public class ControlValueProvider {
   private final SparseArray<ViewValueTuple> viewIdTupleMap = new SparseArray<>();
   private final Map<String, ViewValueTuple> valueTupleMap = new HashMap<>();
 
+  private final Map<String, String> valueMap = new HashMap<>();
+  private final Map<String, String> mappedValueMap = new HashMap<>();
 
   public ControlValueProvider(List<String> values) {
     if (values != null) {
@@ -38,6 +40,13 @@ public class ControlValueProvider {
 
   public ControlValueProvider withViewValue(Integer viewId, String value) {
     return withViewValue(viewId, value, true, null);
+  }
+
+  public ControlValueProvider withMappedValue(String value, String mappedValue) {
+    addValue(value);
+    mappedValueMap.put(value, mappedValue);
+    valueMap.put(mappedValue, value);
+    return this;
   }
 
   public ControlValueProvider withViewValue(Integer viewId, String value, boolean isActive, String defaultValue) {
@@ -52,10 +61,7 @@ public class ControlValueProvider {
     viewIdTupleMap.put(viewId, tuple);
 
     viewIdSet.add(viewId);
-    if (!valueSet.contains(value)) {
-      valueSet.add(value);
-      valueList.add(value);
-    }
+    addValue(value);
     return this;
   }
 
@@ -69,35 +75,36 @@ public class ControlValueProvider {
 
   public Integer getViewId(String value) {
     ViewValueTuple tuple = valueTupleMap.get(value);
-    return tuple.viewId;
+    return tuple.getViewId();
   }
 
   public String getValue(Integer viewId) {
     ViewValueTuple tuple = viewIdTupleMap.get(viewId);
-    return tuple.value;
+    return tuple.getValue();
+  }
+
+  public String getValue(String mappedValue) {
+    return valueMap.get(mappedValue);
+  }
+
+  public String getMappedValue(String value) {
+    return mappedValueMap.get(value);
   }
 
   public boolean isActive(Integer viewId) {
     ViewValueTuple tuple = viewIdTupleMap.get(viewId);
-    return tuple.isActive;
+    return tuple.isActive();
   }
 
   public String getDefaultValue(Integer viewId) {
     ViewValueTuple tuple = viewIdTupleMap.get(viewId);
-    return tuple.defaultValue;
+    return tuple.getDefaultValue();
   }
 
-  private class ViewValueTuple {
-    private final int viewId;
-    private final String value;
-    private final String defaultValue;
-    private final boolean isActive;
-
-    private ViewValueTuple(int viewId, String value, boolean isActive, String defaultValue) {
-      this.viewId = viewId;
-      this.value = value;
-      this.defaultValue = defaultValue;
-      this.isActive = isActive;
+  private void addValue(String value) {
+    if (!valueSet.contains(value)) {
+      valueSet.add(value);
+      valueList.add(value);
     }
   }
 }
