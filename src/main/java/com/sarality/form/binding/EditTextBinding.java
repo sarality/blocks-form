@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class EditTextBinding extends BaseViewBinding<EditText> {
 
-  private EditTextBinding(int viewId) {
-    super(viewId);
+  private EditTextBinding(FormField field) {
+    super(field);
   }
 
   @Override
@@ -46,7 +46,7 @@ public class EditTextBinding extends BaseViewBinding<EditText> {
 
     @Override
     public ViewBinding createBinding(FormField field) {
-      return new EditTextBinding(field.getViewId());
+      return new EditTextBinding(field);
     }
   }
 }

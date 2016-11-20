@@ -18,8 +18,8 @@ public class ViewTagBinding extends BaseViewBinding<View> {
 
   public static final Logger logger = LoggerFactory.getLogger(ViewTagBinding.class);
 
-  private ViewTagBinding(int viewId) {
-    super(viewId);
+  private ViewTagBinding(FormField field) {
+    super(field);
   }
 
   @Override
@@ -55,7 +55,7 @@ public class ViewTagBinding extends BaseViewBinding<View> {
 
     @Override
     public ViewBinding createBinding(FormField field) {
-      return new ViewTagBinding(field.getViewId());
+      return new ViewTagBinding(field);
     }
   }
 }

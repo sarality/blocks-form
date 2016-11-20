@@ -13,8 +13,8 @@ import java.util.List;
  */
 public class CheckBoxBinding extends BaseViewBinding<CheckBox> {
 
-  private CheckBoxBinding(int viewId) {
-    super(viewId);
+  private CheckBoxBinding(FormField field) {
+    super(field);
   }
 
   @Override
@@ -53,7 +53,7 @@ public class CheckBoxBinding extends BaseViewBinding<CheckBox> {
 
     @Override
     public ViewBinding createBinding(FormField field) {
-      return new CheckBoxBinding(field.getViewId());
+      return new CheckBoxBinding(field);
     }
   }
 }
