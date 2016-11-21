@@ -69,21 +69,33 @@ public class FormBindings {
 
   public FormData readData() {
     FormData data = new FormData();
-    for (ViewBinding binding: viewBindingMap.values()) {
+    for (ViewBinding<?> binding : viewBindingMap.values()) {
       FormField field = binding.getField();
-      String text = binding.getValue();
-      logger.trace("Read value {} for field {}", text, field.getName());
-      data.addValue(field, text);
+      if (binding.isMultiValueField()) {
+        List<String> textList = binding.getValueList();
+        logger.trace("Read value List {} for field {}", textList, field.getName());
+        data.addValueList(field, textList);
+      } else {
+        String text = binding.getValue();
+        logger.trace("Read value {} for field {}", text, field.getName());
+        data.addValue(field, text);
+      }
     }
     return data;
   }
 
   public void populateForm(FormData data) {
     for (FormField field : fieldList) {
-      ViewBinding binding = viewBindingMap.get(field.getName());
-      String value = data.getString(field);
-      logger.trace("Setting value {} for field {}", value, field.getName());
-      binding.setValue(value);
+      ViewBinding<?> binding = viewBindingMap.get(field.getName());
+      if (binding.isMultiValueField()) {
+        List<String> valueList = data.getValueList(field);
+        logger.trace("Setting value List {} for field {}", valueList, field.getName());
+        binding.setValueList(valueList);
+      } else {
+        String value = data.getValue(field);
+        logger.trace("Setting value {} for field {}", value, field.getName());
+        binding.setValue(value);
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 package com.sarality.form;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 public class FormData {
 
   private final Map<String, String> fieldValueMap = new HashMap<>();
+  private final Map<String, List<String>> fieldValueListMap = new HashMap<>();
 
   public String getString(FormField field) {
     return getString(field.getName());
@@ -105,17 +107,53 @@ public class FormData {
     }
   }
 
+  public <T extends Enum<T>> List<T> getEnumList(FormField field, Class<T> enumClass) {
+    List<String> valueList = getValueList(field.getName());
+    if (valueList == null) {
+      return null;
+    }
+    List<T> enumList = new ArrayList<>();
+    for (String value : valueList) {
+      enumList.add(Enum.valueOf(enumClass, value));
+    }
+    return enumList;
+  }
+
+  public <T extends Enum<T>> void setEnum(FormField field, List<T> enumList) {
+    if (enumList != null) {
+      List<String> valueList = new ArrayList<>();
+      for (T enumValue : enumList) {
+        valueList.add(enumValue.name());
+      }
+      addValueList(field, valueList);
+    } else {
+      addValueList(field, null);
+    }
+  }
+
+
   void addValue(FormField field, String value) {
     fieldValueMap.put(field.getName(), value);
   }
 
+  void addValueList(FormField field, List<String> valueList) {
+    fieldValueListMap.put(field.getName(), valueList);
+  }
 
-  private String getValue(FormField field) {
+  String getValue(FormField field) {
     return getValue(field.getName());
   }
 
   private String getValue(String fieldName) {
     return fieldValueMap.get(fieldName);
+  }
+
+  List<String> getValueList(FormField field) {
+    return getValueList(field.getName());
+  }
+
+  private List<String> getValueList(String fieldName) {
+    return fieldValueListMap.get(fieldName);
   }
 
   public String displayString(List<FormField> fields) {
