@@ -6,12 +6,17 @@ import android.widget.Spinner;
 
 import com.sarality.form.value.ControlValueProvider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Renders the DropDown Control.
  *
  * @author abhideep@ (Abhideep Singh)
  */
-public class DropDownRenderer<T> implements ControlRenderer<Spinner> {
+public class DropDownRenderer implements ControlRenderer<Spinner> {
+
+  public static final Logger logger = LoggerFactory.getLogger(DropDownRenderer.class);
 
   private final int itemViewId;
   private final int listViewId;
@@ -35,10 +40,11 @@ public class DropDownRenderer<T> implements ControlRenderer<Spinner> {
 
   @Override
   public void render(Context context, Spinner spinner) {
-    if (itemRenderer == null) {
+    if (itemRenderer == null && valueProvider != null) {
       ArrayAdapter<String> adapter = new ArrayAdapter<>(context, itemViewId, valueProvider.getValueList());
       adapter.setDropDownViewResource(listViewId);
       spinner.setAdapter(adapter);
+      adapter.notifyDataSetChanged();
     }
   }
 }
