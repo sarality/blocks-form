@@ -1,8 +1,9 @@
 package com.sarality.form.binding;
 
+import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ToggleButton;
 
 import com.sarality.form.FormField;
 import com.sarality.form.value.ControlValueProvider;
@@ -21,6 +22,21 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
 
   private CheckBoxGroupBinding(FormField field) {
     super(field);
+  }
+
+  @Override
+  public void initBinding(Activity activity, BindingConfig<ViewGroup> config) {
+    super.initBinding(activity, config);
+    BindingSpec<ViewGroup> spec = config.getBindingSpec();
+    ViewGroup viewGroup = getView();
+    if (spec != null && spec.getValueProvider() != null) {
+      ControlValueProvider valueProvider = spec.getValueProvider();
+      for (Integer viewId : valueProvider.getViewIds()) {
+        ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
+        checkBox.setChecked(valueProvider.getDefaultValue(viewId) != null);
+        checkBox.setEnabled(valueProvider.isActive(viewId));
+      }
+    }
   }
 
   @Override
@@ -46,7 +62,7 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
     if (spec != null && spec.getValueProvider() != null) {
       ControlValueProvider mapping = spec.getValueProvider();
       for (Integer viewId : mapping.getViewIds()) {
-        CheckBox checkBox = (CheckBox) viewGroup.findViewById(viewId);
+        ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
         if (checkBox.isChecked()) {
           valueList.add(mapping.getValue(viewId));
         }
@@ -55,8 +71,8 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
       int count = viewGroup.getChildCount();
       for (int i = 0; i < count; i++) {
         View childView = viewGroup.getChildAt(i);
-        if (childView instanceof CheckBox) {
-          CheckBox checkBox = (CheckBox) childView;
+        if (childView instanceof ToggleButton) {
+          ToggleButton checkBox = (ToggleButton) childView;
           if (checkBox.isChecked()) {
             valueList.add(checkBox.getText().toString());
           }
@@ -76,16 +92,17 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
     if (spec != null && spec.getValueProvider() != null) {
       ControlValueProvider mapping = spec.getValueProvider();
       for (Integer viewId : mapping.getViewIds()) {
-        CheckBox checkBox = (CheckBox) viewGroup.findViewById(viewId);
+        ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
         String value = mapping.getValue(viewId);
-        checkBox.setChecked(textValueSet.contains(value));
+        checkBox.setChecked(value != null && textValueSet.contains(value));
+        checkBox.setEnabled(mapping.isActive(viewId));
       }
     } else {
       int count = viewGroup.getChildCount();
       for (int i = 0; i < count; i++) {
         View childView = viewGroup.getChildAt(i);
-        if (childView instanceof CheckBox) {
-          CheckBox checkBox = (CheckBox) childView;
+        if (childView instanceof ToggleButton) {
+          ToggleButton checkBox = (ToggleButton) childView;
           String value = checkBox.getText().toString();
           checkBox.setChecked(textValueSet.contains(value));
         }
