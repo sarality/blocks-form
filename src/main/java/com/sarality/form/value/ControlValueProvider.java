@@ -20,6 +20,9 @@ public class ControlValueProvider {
   private final List<String> valueList = new ArrayList<>();
   private final Set<String> valueSet = new HashSet<>();
 
+  private String defaultValue;
+  private List<String> defaultValueList;
+
   private final Set<Integer> viewIdSet = new HashSet<>();
   private final List<ViewValueTuple> tupleList = new ArrayList<>();
   // Map between View Id and where it's Tuple is stored in the List of Tuples
@@ -36,6 +39,16 @@ public class ControlValueProvider {
     if (values != null) {
       valueList.addAll(values);
     }
+  }
+
+  public ControlValueProvider withDefaultValue(String value) {
+    this.defaultValue = value;
+    return this;
+  }
+
+  public ControlValueProvider withDefaultValues(List<String> valueList) {
+    this.defaultValueList = valueList;
+    return this;
   }
 
   public ControlValueProvider withViewValue(Integer viewId, String value) {
@@ -71,6 +84,14 @@ public class ControlValueProvider {
 
   public List<String> getValueList() {
     return valueList;
+  }
+
+  public String getDefaultValue() {
+    return defaultValue;
+  }
+
+  public List<String> getDefaultValues() {
+    return defaultValueList;
   }
 
   public Integer getViewId(String value) {

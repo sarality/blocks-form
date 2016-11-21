@@ -6,10 +6,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sarality.form.FormField;
-import com.sarality.form.render.DropDownRenderer;
 import com.sarality.form.value.ControlValueProvider;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,10 +27,6 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
     BindingSpec<Spinner> spec = getSpec();
     if (spec != null && spec.getRenderer() != null) {
       spec.getRenderer().render(activity, getView());
-    } else {
-      DropDownRenderer renderer = new DropDownRenderer();
-      renderer.setValueProvider(new ControlValueProvider(new ArrayList<String>()));
-      renderer.render(activity, getView());
     }
   }
 
@@ -47,13 +41,29 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
     if (selectedView == null) {
       return null;
     }
-    return ((TextView) selectedView).getText().toString();
+    String value = ((TextView) selectedView).getText().toString();
+    int viewId = selectedView.getId();
+
+    BindingSpec<Spinner> spec = getSpec();
+    if (spec != null && spec.getValueProvider() != null) {
+      ControlValueProvider valueProvider = spec.getValueProvider();
+      String controlValue = valueProvider.getValue(viewId);
+      if (controlValue != null) {
+        return controlValue;
+      }
+      controlValue = valueProvider.getMappedValue(value);
+      if (controlValue != null) {
+        return controlValue;
+      }
+    }
+    return value;
   }
 
   @Override
   public void setValue(String value) {
     Spinner spinner = getView();
-    spinner.setSelection(2);
+    // TODO(abhideep): Get Index of Value and then set selection
+    // spinner.setSelection(2);
   }
 
   @Override

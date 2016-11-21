@@ -1,5 +1,6 @@
 package com.sarality.form.binding;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -18,6 +19,25 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
 
   private RadioButtonGroupBinding(FormField field) {
     super(field);
+  }
+
+  @Override
+  public void initBinding(Activity activity, BindingConfig<RadioGroup> config) {
+    super.initBinding(activity, config);
+    BindingSpec<RadioGroup> spec = getSpec();
+    if (spec != null && spec.getValueProvider() != null) {
+      RadioGroup radioGroup = getView();
+      ControlValueProvider valueProvider = spec.getValueProvider();
+      String defaultValue = valueProvider.getDefaultValue();
+      for (Integer viewId : valueProvider.getViewIds()) {
+        RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
+        if (valueProvider.getValue(viewId).equals(defaultValue)) {
+          radioButton.setChecked(true);
+        } else {
+          radioButton.setChecked(false);
+        }
+      }
+    }
   }
 
   @Override
@@ -61,10 +81,10 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
 
     if (spec != null && spec.getValueProvider() != null) {
       ControlValueProvider mapping = spec.getValueProvider();
-      int selectedButoonId = mapping.getViewId(value);
+      int selectedButtonId = mapping.getViewId(value);
       for (Integer viewId : mapping.getViewIds()) {
         RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
-        if (viewId == selectedButoonId) {
+        if (viewId == selectedButtonId) {
           radioButton.setChecked(true);
         } else {
           radioButton.setChecked(false);

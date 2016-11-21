@@ -1,8 +1,10 @@
 package com.sarality.form.binding;
 
+import android.app.Activity;
 import android.widget.EditText;
 
 import com.sarality.form.FormField;
+import com.sarality.form.value.ControlValueProvider;
 
 import java.util.List;
 
@@ -15,6 +17,19 @@ public class EditTextBinding extends BaseViewBinding<EditText> {
 
   private EditTextBinding(FormField field) {
     super(field);
+  }
+
+  @Override
+  public void initBinding(Activity activity, BindingConfig<EditText> config) {
+    super.initBinding(activity, config);
+    BindingSpec<EditText> spec = config.getBindingSpec();
+    if (spec != null && spec.getValueProvider() != null) {
+      ControlValueProvider valueProvider = spec.getValueProvider();
+      String defaultValue = valueProvider.getDefaultValue();
+      if (defaultValue != null) {
+        getView().setText(defaultValue);
+      }
+    }
   }
 
   @Override
