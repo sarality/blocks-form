@@ -8,6 +8,9 @@ import android.widget.TextView;
 import com.sarality.form.FormField;
 import com.sarality.form.value.ControlValueProvider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 /**
@@ -16,6 +19,8 @@ import java.util.List;
  * @author abhideep@ (Abhideep Singh)
  */
 public class DropDownBinding extends BaseViewBinding<Spinner> {
+
+  private static final Logger logger = LoggerFactory.getLogger(DropDownBinding.class);
 
   private DropDownBinding(FormField field) {
     super(field);
@@ -44,26 +49,39 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
     String value = ((TextView) selectedView).getText().toString();
     int viewId = selectedView.getId();
 
-    BindingSpec<Spinner> spec = getSpec();
-    if (spec != null && spec.getValueProvider() != null) {
-      ControlValueProvider valueProvider = spec.getValueProvider();
+    ControlValueProvider valueProvider = getValueProvider();
+    if (valueProvider != null) {
       String controlValue = valueProvider.getValue(viewId);
       if (controlValue != null) {
+        logger.trace("Drop down selected View has value {}", controlValue);
         return controlValue;
       }
-      controlValue = valueProvider.getMappedValue(value);
-      if (controlValue != null) {
-        return controlValue;
+      String mappedValue = valueProvider.getMappedValue(value);
+      if (mappedValue != null) {
+        logger.trace("Drop down selected View has mapped value {}", mappedValue);
+        return mappedValue;
       }
     }
+    logger.trace("Drop down selected View has value {}", value);
     return value;
   }
 
   @Override
   public void setValue(String value) {
     Spinner spinner = getView();
-    // TODO(abhideep): Get Index of Value and then set selection
-    // spinner.setSelection(2);
+    ControlValueProvider valueProvider = getValueProvider();
+    if (value != null && valueProvider != null) {
+      List<String> controlValueList = valueProvider.getValueList();
+      int index = 0;
+      for (String controlValue : controlValueList) {
+        String mappedValue = valueProvider.getMappedValue(controlValue);
+        if (value.equals(controlValue) || value.equals(mappedValue)) {
+          spinner.setSelection(index);
+          break;
+        }
+        index++;
+      }
+    }
   }
 
   @Override

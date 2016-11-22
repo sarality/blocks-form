@@ -44,6 +44,7 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
 
     if (config.getBindingSpec() != null) {
       this.spec = config.getBindingSpec();
+      this.valueProvider = this.spec.getValueProvider();
     }
   }
 
@@ -77,5 +78,9 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
 
   public BindingSpec<V> getSpec() {
     return spec;
+  }
+
+  protected ControlValueProvider getValueProvider() {
+    return valueProvider;
   }
 }

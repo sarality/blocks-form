@@ -54,14 +54,21 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
       return null;
     }
 
-    BindingSpec<RadioGroup> spec = getSpec();
     RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
-    if (spec != null && spec.getValueProvider() != null) {
-      ControlValueProvider mapping = spec.getValueProvider();
-      return mapping.getValue(viewId);
-    } else {
-      return radioButton.getText().toString();
+    String value = radioButton.getText().toString();
+
+    ControlValueProvider valueProvider = getValueProvider();
+    if (valueProvider != null ) {
+      String controlValue = valueProvider.getValue(viewId);
+      if (controlValue != null) {
+        return controlValue;
+      }
+      String mappedValue = valueProvider.getMappedValue(value);
+      if (mappedValue != null) {
+        return mappedValue;
+      }
     }
+    return value;
   }
 
   @Override
@@ -79,12 +86,12 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
     BindingSpec<RadioGroup> spec = getSpec();
     RadioGroup radioGroup = getView();
 
-    if (spec != null && spec.getValueProvider() != null) {
-      ControlValueProvider mapping = spec.getValueProvider();
-      int selectedButtonId = mapping.getViewId(value);
-      for (Integer viewId : mapping.getViewIds()) {
+    ControlValueProvider valueProvider = getValueProvider();
+    if (valueProvider != null) {
+      Integer selectedButtonId = valueProvider.getViewId(value);
+      for (Integer viewId : valueProvider.getViewIds()) {
         RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
-        if (viewId == selectedButtonId) {
+        if (selectedButtonId != null && selectedButtonId.equals(viewId)) {
           radioButton.setChecked(true);
         } else {
           radioButton.setChecked(false);
