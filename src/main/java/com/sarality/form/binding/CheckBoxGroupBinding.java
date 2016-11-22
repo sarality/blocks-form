@@ -58,13 +58,21 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
   public List<String> getValueList() {
     List<String> valueList = new ArrayList<>();
     ViewGroup viewGroup = getView();
-    BindingSpec<ViewGroup> spec = getSpec();
-    if (spec != null && spec.getValueProvider() != null) {
-      ControlValueProvider mapping = spec.getValueProvider();
-      for (Integer viewId : mapping.getViewIds()) {
+    ControlValueProvider valueProvider = getValueProvider();
+    if (valueProvider != null) {
+      for (Integer viewId : valueProvider.getViewIds()) {
         ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
         if (checkBox.isChecked()) {
-          valueList.add(mapping.getValue(viewId));
+          String viewValue = valueProvider.getValue(viewId);
+          if (viewValue != null) {
+            valueList.add(viewValue);
+            continue;
+          }
+          String textValue = checkBox.getText().toString();
+          String mappedValue = valueProvider.getValue(textValue);
+          if (mappedValue != null) {
+            valueList.add(mappedValue);
+          }
         }
       }
     } else {

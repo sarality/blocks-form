@@ -96,12 +96,18 @@ public class ControlValueProvider {
 
   public Integer getViewId(String value) {
     ViewValueTuple tuple = valueTupleMap.get(value);
-    return tuple.getViewId();
+    if (tuple != null) {
+      return tuple.getViewId();
+    }
+    return null;
   }
 
   public String getValue(Integer viewId) {
     ViewValueTuple tuple = viewIdTupleMap.get(viewId);
-    return tuple.getValue();
+    if (tuple != null) {
+      return tuple.getValue();
+    }
+    return null;
   }
 
   public String getValue(String mappedValue) {
