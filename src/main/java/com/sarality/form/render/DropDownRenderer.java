@@ -1,5 +1,6 @@
 package com.sarality.form.render;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -39,9 +40,9 @@ public class DropDownRenderer implements ControlRenderer<Spinner> {
   }
 
   @Override
-  public void render(Context context, Spinner spinner) {
+  public void render(Activity activity, Spinner spinner) {
     if (itemRenderer == null && valueProvider != null) {
-      ArrayAdapter<String> adapter = new ArrayAdapter<>(context, itemViewId, valueProvider.getValueList());
+      ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, itemViewId, valueProvider.getValueList());
       adapter.setDropDownViewResource(listViewId);
       spinner.setAdapter(adapter);
       adapter.notifyDataSetChanged();

@@ -1,5 +1,6 @@
 package com.sarality.form.render;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.sarality.form.value.ControlValueProvider;
@@ -13,5 +14,5 @@ public interface ControlRenderer<V> {
 
   void setValueProvider(ControlValueProvider valueProvider);
 
-  void render(Context context, V view);
+  void render(Activity activity, V view);
 }

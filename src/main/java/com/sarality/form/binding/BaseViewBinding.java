@@ -26,6 +26,8 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
   private V view;
 
   private BindingSpec<V> spec;
+  private ControlDataExtractor<V> extractor;
+  private ControlRenderer<V> renderer;
   private ControlValueProvider valueProvider;
 
   public BaseViewBinding(FormField field) {
@@ -44,7 +46,17 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
 
     if (config.getBindingSpec() != null) {
       this.spec = config.getBindingSpec();
-      this.valueProvider = this.spec.getValueProvider();
+      this.valueProvider = spec.getValueProvider();
+      this.renderer = spec.getRenderer();
+    }
+    if (renderer == null) {
+      this.renderer = getDefaultRenderer();
+    }
+    if (valueProvider != null) {
+      valueProvider.init(activity);
+      if (renderer != null) {
+        renderer.setValueProvider(valueProvider);
+      }
     }
   }
 
@@ -62,13 +74,10 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
   @Override
   public void setValueProvider(ControlValueProvider valueProvider) {
     this.valueProvider = valueProvider;
-    if (spec != null) {
-      ControlRenderer<V> renderer = spec.getRenderer();
-
-      if (renderer != null) {
-        renderer.setValueProvider(this.valueProvider);
-        renderer.render(getActivity(), getView());
-      }
+    this.valueProvider.init(getActivity());
+    if (renderer != null) {
+      renderer.setValueProvider(this.valueProvider);
+      renderer.render(getActivity(), getView());
     }
   }
 
@@ -76,11 +85,23 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
     return activity;
   }
 
-  public BindingSpec<V> getSpec() {
-    return spec;
-  }
-
   protected ControlValueProvider getValueProvider() {
     return valueProvider;
+  }
+
+  ControlDataExtractor<V> getExtractor() {
+    return extractor;
+  }
+
+  void setExtractor(ControlDataExtractor<V> extractor) {
+    this.extractor = extractor;
+  }
+
+  ControlRenderer<V> getRenderer() {
+    return renderer;
+  }
+
+  ControlRenderer<V> getDefaultRenderer() {
+    return null;
   }
 }

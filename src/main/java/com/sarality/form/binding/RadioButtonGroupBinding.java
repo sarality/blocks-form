@@ -24,10 +24,9 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
   @Override
   public void initBinding(Activity activity, BindingConfig<RadioGroup> config) {
     super.initBinding(activity, config);
-    BindingSpec<RadioGroup> spec = getSpec();
-    if (spec != null && spec.getValueProvider() != null) {
+    ControlValueProvider valueProvider = getValueProvider();
+    if (valueProvider != null) {
       RadioGroup radioGroup = getView();
-      ControlValueProvider valueProvider = spec.getValueProvider();
       String defaultValue = valueProvider.getDefaultValue();
       for (Integer viewId : valueProvider.getViewIds()) {
         RadioButton radioButton = (RadioButton) radioGroup.findViewById(viewId);
@@ -83,7 +82,6 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
 
   @Override
   public void setValue(String value) {
-    BindingSpec<RadioGroup> spec = getSpec();
     RadioGroup radioGroup = getView();
 
     ControlValueProvider valueProvider = getValueProvider();
