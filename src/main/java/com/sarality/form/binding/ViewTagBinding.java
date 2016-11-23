@@ -1,5 +1,6 @@
 package com.sarality.form.binding;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.sarality.form.FormField;
@@ -23,6 +24,14 @@ public class ViewTagBinding extends BaseViewBinding<View> {
   }
 
   @Override
+  public void initBinding(Activity activity, BindingConfig<View> config) {
+    super.initBinding(activity, config);
+    if (getExtractor() == null) {
+      setExtractor(new ViewTagDataExtractor());
+    }
+  }
+
+  @Override
   public boolean isMultiValueField() {
     return false;
   }
@@ -38,12 +47,7 @@ public class ViewTagBinding extends BaseViewBinding<View> {
 
   @Override
   public String getValue() {
-    BindingSpec<View> spec = getSpec();
-    if (spec != null && spec.getExtractor() != null) {
-      return spec.getExtractor().extractValue(getActivity(), getView());
-    } else {
-      return new ViewTagDataExtractor().extractValue(getActivity(), getView());
-    }
+    return getExtractor().extractValue(getActivity(), getView());
   }
 
   @Override

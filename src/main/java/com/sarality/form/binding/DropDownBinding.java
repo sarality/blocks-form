@@ -6,6 +6,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sarality.form.FormField;
+import com.sarality.form.render.ControlRenderer;
+import com.sarality.form.render.DropDownRenderer;
 import com.sarality.form.value.ControlValueProvider;
 
 import org.slf4j.Logger;
@@ -29,10 +31,12 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
   @Override
   public void initBinding(Activity activity, BindingConfig<Spinner> config) {
     super.initBinding(activity, config);
-    BindingSpec<Spinner> spec = getSpec();
-    if (spec != null && spec.getRenderer() != null) {
-      spec.getRenderer().render(activity, getView());
-    }
+    getRenderer().render(activity, getView());
+  }
+
+  @Override
+  ControlRenderer<Spinner> getDefaultRenderer() {
+    return new DropDownRenderer();
   }
 
   @Override
