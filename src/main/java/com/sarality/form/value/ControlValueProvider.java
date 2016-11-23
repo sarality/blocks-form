@@ -1,5 +1,6 @@
 package com.sarality.form.value;
 
+import android.app.Activity;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
@@ -21,6 +22,7 @@ public class ControlValueProvider {
   private final Set<String> valueSet = new HashSet<>();
 
   private String defaultValue;
+  private FieldValue defaultFieldValue;
   private List<String> defaultValueList;
 
   private final Set<Integer> viewIdSet = new HashSet<>();
@@ -43,6 +45,11 @@ public class ControlValueProvider {
 
   public ControlValueProvider withDefaultValue(String value) {
     this.defaultValue = value;
+    return this;
+  }
+
+  public ControlValueProvider withDefaultValue(FieldValue value) {
+    this.defaultFieldValue = value;
     return this;
   }
 
@@ -78,6 +85,12 @@ public class ControlValueProvider {
     return this;
   }
 
+  public void init(Activity activity) {
+    if (defaultFieldValue != null) {
+      defaultFieldValue.init(activity);
+    }
+  }
+
   public Set<Integer> getViewIds() {
     return viewIdSet;
   }
@@ -87,6 +100,9 @@ public class ControlValueProvider {
   }
 
   public String getDefaultValue() {
+    if (defaultValue == null && defaultFieldValue != null) {
+      return defaultFieldValue.getValue();
+    }
     return defaultValue;
   }
 
