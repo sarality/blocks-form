@@ -1,6 +1,5 @@
 package com.sarality.form.binding;
 
-import android.app.Activity;
 import android.view.View;
 
 import com.sarality.form.FormField;
@@ -24,11 +23,8 @@ public class ViewTagBinding extends BaseViewBinding<View> {
   }
 
   @Override
-  public void initBinding(Activity activity, BindingConfig<View> config) {
-    super.initBinding(activity, config);
-    if (getExtractor() == null) {
-      setExtractor(new ViewTagDataExtractor());
-    }
+  public ControlDataExtractor<View> getDefaultExtractor() {
+    return new ViewTagDataExtractor();
   }
 
   @Override
