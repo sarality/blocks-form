@@ -46,7 +46,8 @@ public class DatePickerBinding extends BaseViewBinding<EditText> {
 
   @Override
   public String getValue() {
-    return getView().getText().toString();
+    String value = getView().getText().toString();
+    return getRenderer().getFieldValue(value);
   }
 
   @Override

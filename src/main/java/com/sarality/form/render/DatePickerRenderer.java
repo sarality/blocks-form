@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.sarality.action.ActionContext;
 import com.sarality.action.ClickActions;
 import com.sarality.action.ViewAction;
+import com.sarality.form.FormData;
 import com.sarality.form.value.ControlValueProvider;
 
 import java.text.SimpleDateFormat;
@@ -26,23 +27,23 @@ import hirondelle.date4j.DateTime;
  */
 public class DatePickerRenderer implements ControlRenderer<EditText> {
 
-  private static final String DEFAULT_DATE4J_FORMAT = "DD/MM/YYYY";
-  private static final String DEFAULT_JAVA_FORMAT = "dd/MM/yyyy";
+  private static final String DATE4J_DISPLAY_FORMAT = "DD/MM/YYYY";
+  private static final String JAVA_DISPLAY_FORMAT = "dd/MM/yyyy";
 
   private final int calendarIconId;
-  private final String dateFormat;
-  private final String javaFormat;
+  private final String displayFormat;
+  private final String javaDisplayFormat;
 
   private ControlValueProvider valueProvider;
 
-  public DatePickerRenderer(int calendarIconId, String dateFormat, String javaFormat) {
+  public DatePickerRenderer(int calendarIconId, String displayFormat, String javaDisplayFormat) {
     this.calendarIconId = calendarIconId;
-    this.dateFormat = dateFormat;
-    this.javaFormat = javaFormat;
+    this.displayFormat = displayFormat;
+    this.javaDisplayFormat = javaDisplayFormat;
   }
 
   public DatePickerRenderer(int calendarIconId) {
-    this(calendarIconId, DEFAULT_DATE4J_FORMAT, DEFAULT_JAVA_FORMAT);
+    this(calendarIconId, DATE4J_DISPLAY_FORMAT, JAVA_DISPLAY_FORMAT);
   }
 
   @Override
@@ -51,9 +52,32 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
   }
 
   @Override
+  public String getFieldValue(String displayValue) {
+    DateTime date = parseDisplayValue(displayValue);
+    if (date == null) {
+      return null;
+    }
+    return date.format(FormData.DATE_FORMAT);
+  }
+
+  @Override
   public void render(Activity activity, EditText view) {
     new ClickActions(activity).register(calendarIconId,
         new ShowDatePickerAction(activity, view, valueProvider)).init();
+  }
+
+  private DateTime parseDisplayValue(String displayValue) {
+    if (displayValue == null || displayValue.trim().length() == 0) {
+      return null;
+    }
+    DateTime date;
+    try {
+      Date dateValue = new SimpleDateFormat(javaDisplayFormat, Locale.getDefault()).parse(displayValue);
+      date = DateTime.forInstant(dateValue.getTime(), TimeZone.getDefault());
+    } catch (Exception e) {
+      date = null;
+    }
+    return date;
   }
 
   private class ShowDatePickerAction implements ViewAction {
@@ -77,16 +101,9 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
         }
       }
 
-      DateTime date;
-      if (dateString == null || dateString.trim().length() == 0) {
+      DateTime date = parseDisplayValue(dateString);
+      if (date == null) {
         date = DateTime.today(TimeZone.getDefault());
-      } else {
-        try {
-          Date dateValue = new SimpleDateFormat(javaFormat, Locale.getDefault()).parse(dateString);
-          date = DateTime.forInstant(dateValue.getTime(), TimeZone.getDefault());
-        } catch (Exception e) {
-          date = DateTime.today(TimeZone.getDefault());
-        }
       }
 
       DatePickerListener listener = new DatePickerListener(textView);
@@ -113,7 +130,7 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
         textView.setText("");
       } else {
         DateTime date = DateTime.forDateOnly(year, month + 1, day);
-        textView.setText(date.format(dateFormat));
+        textView.setText(date.format(displayFormat));
       }
       this.buttonPressed = 0;
     }
