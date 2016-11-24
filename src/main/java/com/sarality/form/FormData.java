@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import hirondelle.date4j.DateTime;
+
 /**
  * Stores and provides the value for fields in a Form
  *
  * @author abhideep@ (Abhideep Singh)
  */
 public class FormData {
+
+  public static final String DATE_FORMAT = "YYYY-MM-DD";
 
   private final Map<String, String> fieldValueMap = new HashMap<>();
   private final Map<String, List<String>> fieldValueListMap = new HashMap<>();
@@ -84,6 +88,26 @@ public class FormData {
       addValue(field, null);
     } else {
       addValue(field, String.valueOf(value));
+    }
+  }
+
+  public DateTime getDate(FormField field) {
+    return getDate(field.getName());
+  }
+
+  public DateTime getDate(String fieldName) {
+    String value = getValue(fieldName);
+    if (value == null || value.equals("")) {
+      return null;
+    }
+    return new DateTime(value);
+  }
+
+  public void setDate(FormField field, DateTime value) {
+    if (value == null) {
+      addValue(field, null);
+    } else {
+      addValue(field, value.format(DATE_FORMAT));
     }
   }
 
