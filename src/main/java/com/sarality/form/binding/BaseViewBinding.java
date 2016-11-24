@@ -46,8 +46,12 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
 
     if (config.getBindingSpec() != null) {
       this.spec = config.getBindingSpec();
+      this.extractor = spec.getExtractor();
       this.valueProvider = spec.getValueProvider();
       this.renderer = spec.getRenderer();
+    }
+    if (extractor == null) {
+      this.extractor = getDefaultExtractor();
     }
     if (renderer == null) {
       this.renderer = getDefaultRenderer();
@@ -93,10 +97,6 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
     return extractor;
   }
 
-  void setExtractor(ControlDataExtractor<V> extractor) {
-    this.extractor = extractor;
-  }
-
   ControlRenderer<V> getRenderer() {
     return renderer;
   }
@@ -104,4 +104,9 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
   ControlRenderer<V> getDefaultRenderer() {
     return null;
   }
+
+  ControlDataExtractor<V> getDefaultExtractor() {
+    return null;
+  }
+
 }
