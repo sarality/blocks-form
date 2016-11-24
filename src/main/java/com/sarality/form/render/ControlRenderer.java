@@ -14,5 +14,7 @@ public interface ControlRenderer<V> {
 
   void setValueProvider(ControlValueProvider valueProvider);
 
+  String getFieldValue(String displayValue);
+
   void render(Activity activity, V view);
 }

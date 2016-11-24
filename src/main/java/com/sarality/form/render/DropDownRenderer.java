@@ -1,7 +1,6 @@
 package com.sarality.form.render;
 
 import android.app.Activity;
-import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
@@ -37,6 +36,11 @@ public class DropDownRenderer implements ControlRenderer<Spinner> {
   @Override
   public void setValueProvider(ControlValueProvider valueProvider) {
     this.valueProvider = valueProvider;
+  }
+
+  @Override
+  public String getFieldValue(String displayValue) {
+    return displayValue;
   }
 
   @Override
