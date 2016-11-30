@@ -79,7 +79,9 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
       int index = 0;
       for (String controlValue : controlValueList) {
         String mappedValue = valueProvider.getMappedValue(controlValue);
-        if (value.equals(controlValue) || value.equals(mappedValue)) {
+        logger.trace("Matching value {} against Control Value {} with mapped value {} ",
+            value, controlValue, mappedValue);
+        if (value.equals(mappedValue) || (mappedValue == null && value.equals(controlValue))) {
           spinner.setSelection(index);
           break;
         }
