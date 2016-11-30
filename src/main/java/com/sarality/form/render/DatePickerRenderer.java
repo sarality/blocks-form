@@ -13,6 +13,10 @@ import com.sarality.action.ViewAction;
 import com.sarality.form.FormData;
 import com.sarality.form.value.ControlValueProvider;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,6 +30,8 @@ import hirondelle.date4j.DateTime;
  * @author abhideep@ (Abhideep Singh)
  */
 public class DatePickerRenderer implements ControlRenderer<EditText> {
+
+  public static final Logger logger = LoggerFactory.getLogger(DatePickerRenderer.class);
 
   private static final String DATE4J_DISPLAY_FORMAT = "DD/MM/YYYY";
   private static final String JAVA_DISPLAY_FORMAT = "dd/MM/yyyy";
@@ -60,6 +66,15 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
     return date.format(FormData.DATE_FORMAT);
   }
 
+  public String getDisplayValue(String fieldValue) {
+    if (fieldValue == null) {
+      return null;
+    }
+    DateTime dateTime = new DateTime(fieldValue);
+    DateFormat format = new SimpleDateFormat(javaDisplayFormat, Locale.getDefault());
+    return format.format(new Date(dateTime.getMilliseconds(TimeZone.getDefault())));
+  }
+
   @Override
   public void render(Activity activity, EditText view) {
     new ClickActions(activity).register(calendarIconId,
@@ -75,6 +90,7 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
       Date dateValue = new SimpleDateFormat(javaDisplayFormat, Locale.getDefault()).parse(displayValue);
       date = DateTime.forInstant(dateValue.getTime(), TimeZone.getDefault());
     } catch (Exception e) {
+      logger.warn("Parsing failed for Date Display value {}", displayValue);
       date = null;
     }
     return date;

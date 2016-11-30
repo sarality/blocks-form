@@ -16,5 +16,7 @@ public interface ControlRenderer<V> {
 
   String getFieldValue(String displayValue);
 
+  String getDisplayValue(String fieldValue);
+
   void render(Activity activity, V view);
 }
