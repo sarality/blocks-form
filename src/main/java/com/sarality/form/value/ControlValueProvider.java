@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +21,8 @@ import java.util.Set;
  * @author abhideep@ (Abhideep Singh)
  */
 public class ControlValueProvider {
+  public static final Logger logger = LoggerFactory.getLogger(ControlValueProvider.class);
+
   private final List<String> valueList = new ArrayList<>();
   private final Set<String> valueSet = new HashSet<>();
 
@@ -63,6 +68,7 @@ public class ControlValueProvider {
   }
 
   public ControlValueProvider withMappedValue(String value, String mappedValue) {
+    logger.trace("Mapping {} to value {}", value, mappedValue);
     addValue(value);
     mappedValueMap.put(value, mappedValue);
     valueMap.put(mappedValue, value);

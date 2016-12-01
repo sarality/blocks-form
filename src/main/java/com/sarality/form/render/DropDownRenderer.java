@@ -44,6 +44,11 @@ public class DropDownRenderer implements ControlRenderer<Spinner> {
   }
 
   @Override
+  public String getDisplayValue(String fieldValue) {
+    return fieldValue;
+  }
+
+  @Override
   public void render(Activity activity, Spinner spinner) {
     if (itemRenderer == null && valueProvider != null) {
       ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, itemViewId, valueProvider.getValueList());

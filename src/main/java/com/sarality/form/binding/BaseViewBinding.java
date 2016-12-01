@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> {
 
-  public static final Logger logger = LoggerFactory.getLogger(BaseViewBinding.class);
+  private static final Logger logger = LoggerFactory.getLogger(BaseViewBinding.class);
 
   private final FormField field;
   private final int viewId;
