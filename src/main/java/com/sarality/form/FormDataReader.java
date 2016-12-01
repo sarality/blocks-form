@@ -1,6 +1,7 @@
 package com.sarality.form;
 
 import android.app.Activity;
+import android.view.View;
 
 import com.sarality.form.binding.ViewBinding;
 import com.sarality.form.binding.ViewBindingFactory;
@@ -28,15 +29,19 @@ public class FormDataReader {
     }
   }
 
-  public void init(Activity activity) {
+  public void init(Activity activity, View contextView) {
     for (ViewBinding binding : bindingList) {
-      binding.initBinding(activity, null);
+      binding.initBinding(activity, contextView, null);
     }
+  }
+
+  public void init(Activity activity) {
+    init(activity, null);
   }
 
   public FormData readData() {
     FormData data = new FormData();
-    for (ViewBinding binding: bindingList) {
+    for (ViewBinding binding : bindingList) {
       FormField field = binding.getField();
       String text = binding.getValue();
       data.addValue(field, text);

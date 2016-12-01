@@ -1,6 +1,7 @@
 package com.sarality.form.binding;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.EditText;
 
 import com.sarality.form.FormField;
@@ -22,8 +23,8 @@ public class DatePickerBinding extends BaseViewBinding<EditText> {
   }
 
   @Override
-  public void initBinding(Activity activity, BindingConfig<EditText> config) {
-    super.initBinding(activity, config);
+  public void initBinding(Activity activity, View contextView, BindingConfig<EditText> config) {
+    super.initBinding(activity, contextView, config);
     ControlValueProvider valueProvider = getValueProvider();
     if (valueProvider != null) {
       String defaultValue = valueProvider.getDefaultValue();
@@ -52,7 +53,8 @@ public class DatePickerBinding extends BaseViewBinding<EditText> {
 
   @Override
   public void setValue(String value) {
-    getView().setText(value);
+    String displayValue = getRenderer().getDisplayValue(value);
+    getView().setText(displayValue);
   }
 
   @Override

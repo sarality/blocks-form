@@ -1,6 +1,7 @@
 package com.sarality.form;
 
 import android.app.Activity;
+import android.view.View;
 
 import com.sarality.form.binding.BindingConfig;
 import com.sarality.form.binding.ViewBinding;
@@ -58,12 +59,16 @@ public class FormBindings {
     return viewBindingMap.get(field.getName());
   }
 
-  @SuppressWarnings("unchecked")
   public void init(Activity activity) {
+    init(activity, null);
+  }
+
+  @SuppressWarnings("unchecked")
+  public void init(Activity activity, View contextView) {
     for (String name : viewBindingMap.keySet()) {
       ViewBinding binding = viewBindingMap.get(name);
       BindingConfig config = bindingConfigMap.get(name);
-      binding.initBinding(activity, config);
+      binding.initBinding(activity, contextView, config);
     }
   }
 
