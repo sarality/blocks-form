@@ -22,8 +22,8 @@ public class RadioButtonGroupBinding extends BaseViewBinding<RadioGroup> {
   }
 
   @Override
-  public void initBinding(Activity activity, BindingConfig<RadioGroup> config) {
-    super.initBinding(activity, config);
+  public void initBinding(Activity activity, View contextView, BindingConfig<RadioGroup> config) {
+    super.initBinding(activity, contextView, config);
     ControlValueProvider valueProvider = getValueProvider();
     if (valueProvider != null) {
       RadioGroup radioGroup = getView();

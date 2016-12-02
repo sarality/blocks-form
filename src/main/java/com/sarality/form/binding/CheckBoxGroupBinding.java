@@ -25,8 +25,8 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
   }
 
   @Override
-  public void initBinding(Activity activity, BindingConfig<ViewGroup> config) {
-    super.initBinding(activity, config);
+  public void initBinding(Activity activity, View contextView, BindingConfig<ViewGroup> config) {
+    super.initBinding(activity, contextView, config);
     BindingSpec<ViewGroup> spec = config.getBindingSpec();
     ViewGroup viewGroup = getView();
     if (spec != null && spec.getValueProvider() != null) {

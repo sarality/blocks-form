@@ -23,6 +23,7 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
   private final int viewId;
 
   private Activity activity;
+  private View contextView;
   private V view;
 
   private BindingSpec<V> spec;
@@ -40,9 +41,15 @@ public abstract class BaseViewBinding<V extends View> implements ViewBinding<V> 
   }
 
   @Override @SuppressWarnings("unchecked")
-  public void initBinding(Activity activity, BindingConfig<V> config) {
+  public void initBinding(Activity activity, View contextView, BindingConfig<V> config) {
     this.activity = activity;
-    this.view = (V) this.activity.findViewById(viewId);
+    this.contextView = contextView;
+    if (contextView == null) {
+      this.view = (V) this.activity.findViewById(viewId);
+    } else {
+      this.view = (V) this.contextView.findViewById(viewId);
+    }
+
 
     if (config.getBindingSpec() != null) {
       this.spec = config.getBindingSpec();

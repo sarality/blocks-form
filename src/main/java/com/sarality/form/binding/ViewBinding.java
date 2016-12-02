@@ -19,7 +19,7 @@ public interface ViewBinding<V extends View> {
 
   int getViewId();
 
-  void initBinding(Activity activity, BindingConfig<V> config);
+  void initBinding(Activity activity, View contextView, BindingConfig<V> config);
 
   String getValue();
 

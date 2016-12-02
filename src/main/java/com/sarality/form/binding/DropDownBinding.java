@@ -29,8 +29,8 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
   }
 
   @Override
-  public void initBinding(Activity activity, BindingConfig<Spinner> config) {
-    super.initBinding(activity, config);
+  public void initBinding(Activity activity, View contextView, BindingConfig<Spinner> config) {
+    super.initBinding(activity, contextView, config);
     getRenderer().render(activity, getView());
   }
 
