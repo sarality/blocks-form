@@ -3,6 +3,7 @@ package com.sarality.form.render;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -127,6 +128,7 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
           date.getYear(), date.getMonth() - 1, date.getDay());
       dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Set", listener);
       dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Clear", listener);
+      listener.setDialog(dialog);
       dialog.show();
       return true;
     }
@@ -135,16 +137,23 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
   private class DatePickerListener implements DatePickerDialog.OnDateSetListener, DialogInterface.OnClickListener {
     private final TextView textView;
     private int buttonPressed = 0;
+    private DatePickerDialog dialog;
 
     private DatePickerListener(TextView textView) {
       this.textView = textView;
     }
 
+    private void setDialog(DatePickerDialog dialog) {
+      this.dialog = dialog;
+    }
+
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
       if (buttonPressed == DialogInterface.BUTTON_NEGATIVE) {
+        logger.debug("Date is being cleared");
         textView.setText("");
-      } else {
+      } else if (buttonPressed == DialogInterface.BUTTON_POSITIVE) {
+        logger.debug("Date is being set to year {}, month {}, day {}", year, month, day);
         DateTime date = DateTime.forDateOnly(year, month + 1, day);
         textView.setText(date.format(displayFormat));
       }
@@ -154,6 +163,10 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
     @Override
     public void onClick(DialogInterface dialogInterface, int buttonPressed) {
       this.buttonPressed = buttonPressed;
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+        DatePicker datePicker = dialog.getDatePicker();
+        onDateSet(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+      }
     }
   }
 }
