@@ -18,14 +18,31 @@ public class Tags {
 
   private static final Logger logger = LoggerFactory.getLogger(Tags.class);
 
-  public static void setValue(Activity activity, FormField field, int tagResourceId, Object tagValue) {
-    setValue(activity, field.getViewId(), tagResourceId, tagValue);
+  public static void setValue(Activity activity, FormField field, int tagResourceId, Object
+      tagValue) {
+    setValue(activity, null, field.getViewId(), tagResourceId, tagValue);
   }
 
-  public static void setValue(Activity activity, int viewId, int tagResourceId, Object tagValue) {
+  public static void setValue(Activity activity, View contextView, FormField field, int tagResourceId, Object
+      tagValue) {
+    setValue(activity, contextView, field.getViewId(), tagResourceId, tagValue);
+  }
+
+  public static void setValue(Activity activity, int viewId, int tagResourceId, Object
+      tagValue) {
+    setValue(activity, null, viewId, tagResourceId, tagValue);
+  }
+
+
+  public static void setValue(Activity activity, View contextView, int viewId, int tagResourceId, Object tagValue) {
     logger.trace("Setting Tag {} on View {} with value {}", Resources.name(activity, tagResourceId),
         Resources.name(activity, viewId), tagValue);
-    View view = activity.findViewById(viewId);
+    View view;
+    if (contextView == null) {
+      view = activity.findViewById(viewId);
+    } else {
+      view = contextView.findViewById(viewId);
+    }
     if (view != null && tagValue != null) {
       view.setTag(tagResourceId, tagValue);
     } else {
