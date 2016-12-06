@@ -156,15 +156,15 @@ public class FormData {
   }
 
 
-  void addValue(FormField field, String value) {
+  public void addValue(FormField field, String value) {
     fieldValueMap.put(field.getName(), value);
   }
 
-  void addValueList(FormField field, List<String> valueList) {
+  public void addValueList(FormField field, List<String> valueList) {
     fieldValueListMap.put(field.getName(), valueList);
   }
 
-  String getValue(FormField field) {
+  public String getValue(FormField field) {
     return getValue(field.getName());
   }
 
@@ -172,7 +172,7 @@ public class FormData {
     return fieldValueMap.get(fieldName);
   }
 
-  List<String> getValueList(FormField field) {
+  public List<String> getValueList(FormField field) {
     return getValueList(field.getName());
   }
 
