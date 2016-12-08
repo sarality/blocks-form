@@ -36,7 +36,7 @@ public class FormData {
   }
 
   public Long getLong(String fieldName) {
-    String value = getValue(fieldName);
+    String value = convertEmptyToNull(getValue(fieldName));
     if (value == null) {
       return null;
     }
@@ -56,7 +56,7 @@ public class FormData {
   }
 
   public Integer getInt(String fieldName) {
-    String value = getValue(fieldName);
+    String value = convertEmptyToNull(getValue(fieldName));
     if (value == null) {
       return null;
     }
@@ -74,10 +74,8 @@ public class FormData {
   public Double getDouble(FormField field) { return getDouble(field.getName()); }
 
   public Double getDouble(String fieldName) {
-    String value = getValue(fieldName);
+    String value = convertEmptyToNull(getValue(fieldName));
     if (value == null) {
-      return null;
-    } else if (value.equals("")) {
       return null;
     }
     return Double.valueOf(value);
@@ -96,8 +94,8 @@ public class FormData {
   }
 
   public DateTime getDate(String fieldName) {
-    String value = getValue(fieldName);
-    if (value == null || value.equals("")) {
+    String value = convertEmptyToNull(getValue(fieldName));
+    if (value == null) {
       return null;
     }
     return new DateTime(value);
@@ -116,7 +114,7 @@ public class FormData {
   }
 
   public <T extends Enum<T>> T getEnum(String fieldName, Class<T> enumClass) {
-    String value = getValue(fieldName);
+    String value = convertEmptyToNull(getValue(fieldName));
     if (value == null) {
       return null;
     }
@@ -170,6 +168,13 @@ public class FormData {
 
   private String getValue(String fieldName) {
     return fieldValueMap.get(fieldName);
+  }
+
+  private String convertEmptyToNull(String value) {
+    if (value.equals("")) {
+      return null;
+    }
+    return value;
   }
 
   public List<String> getValueList(FormField field) {
