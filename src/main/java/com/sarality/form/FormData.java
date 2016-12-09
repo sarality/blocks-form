@@ -1,5 +1,7 @@
 package com.sarality.form;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,8 +38,8 @@ public class FormData {
   }
 
   public Long getLong(String fieldName) {
-    String value = convertEmptyToNull(getValue(fieldName));
-    if (value == null) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Long.valueOf(value);
@@ -56,8 +58,8 @@ public class FormData {
   }
 
   public Integer getInt(String fieldName) {
-    String value = convertEmptyToNull(getValue(fieldName));
-    if (value == null) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Integer.valueOf(value);
@@ -74,8 +76,8 @@ public class FormData {
   public Double getDouble(FormField field) { return getDouble(field.getName()); }
 
   public Double getDouble(String fieldName) {
-    String value = convertEmptyToNull(getValue(fieldName));
-    if (value == null) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Double.valueOf(value);
@@ -94,8 +96,8 @@ public class FormData {
   }
 
   public DateTime getDate(String fieldName) {
-    String value = convertEmptyToNull(getValue(fieldName));
-    if (value == null) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return new DateTime(value);
@@ -114,8 +116,8 @@ public class FormData {
   }
 
   public <T extends Enum<T>> T getEnum(String fieldName, Class<T> enumClass) {
-    String value = convertEmptyToNull(getValue(fieldName));
-    if (value == null) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Enum.valueOf(enumClass, value);
@@ -168,13 +170,6 @@ public class FormData {
 
   private String getValue(String fieldName) {
     return fieldValueMap.get(fieldName);
-  }
-
-  private String convertEmptyToNull(String value) {
-    if (value.equals("")) {
-      return null;
-    }
-    return value;
   }
 
   public List<String> getValueList(FormField field) {
