@@ -1,5 +1,7 @@
 package com.sarality.form;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,7 @@ public class FormData {
 
   public Long getLong(String fieldName) {
     String value = getValue(fieldName);
-    if (value == null) {
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Long.valueOf(value);
@@ -57,7 +59,7 @@ public class FormData {
 
   public Integer getInt(String fieldName) {
     String value = getValue(fieldName);
-    if (value == null) {
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Integer.valueOf(value);
@@ -75,9 +77,7 @@ public class FormData {
 
   public Double getDouble(String fieldName) {
     String value = getValue(fieldName);
-    if (value == null) {
-      return null;
-    } else if (value.equals("")) {
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Double.valueOf(value);
@@ -97,7 +97,7 @@ public class FormData {
 
   public DateTime getDate(String fieldName) {
     String value = getValue(fieldName);
-    if (value == null || value.equals("")) {
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return new DateTime(value);
@@ -117,7 +117,7 @@ public class FormData {
 
   public <T extends Enum<T>> T getEnum(String fieldName, Class<T> enumClass) {
     String value = getValue(fieldName);
-    if (value == null) {
+    if (TextUtils.isEmpty(value)) {
       return null;
     }
     return Enum.valueOf(enumClass, value);
