@@ -59,7 +59,7 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     List<String> valueList = new ArrayList<>();
     ViewGroup viewGroup = getView();
     ControlValueProvider valueProvider = getValueProvider();
-    if (valueProvider != null) {
+    if (valueProvider != null && valueProvider.getViewIds().size() > 0) {
       for (Integer viewId : valueProvider.getViewIds()) {
         ToggleButton toggleButton = (ToggleButton) viewGroup.findViewById(viewId);
         if (toggleButton.isChecked()) {
@@ -101,7 +101,7 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     ViewGroup viewGroup = getView();
 
     ControlValueProvider valueProvider = getValueProvider();
-    if (valueProvider != null) {
+    if (valueProvider != null && valueProvider.getViewIds().size() > 0) {
       for (Integer viewId : valueProvider.getViewIds()) {
         ToggleButton toggleButton = (ToggleButton) viewGroup.findViewById(viewId);
         String value = valueProvider.getValue(viewId);
