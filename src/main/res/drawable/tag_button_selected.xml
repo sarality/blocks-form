@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+  <stroke
+      android:width="@dimen/tag_stroke"
+      android:color="@color/colorTagSelected"/>
+  <solid android:color="@color/colorTagSelected"/>
+  <padding
+      android:bottom="@dimen/tag_vertical_padding"
+      android:left="@dimen/tag_horizontal_padding"
+      android:right="@dimen/tag_horizontal_padding"
+      android:top="@dimen/tag_vertical_padding"/>
+  <corners android:radius="@dimen/tag_radius"/>
+</shape>

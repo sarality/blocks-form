@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <color name="colorTagSelected">#662196F3</color>
+  <color name="colorTagUnselected">#CCCCCC</color>
+</resources>
