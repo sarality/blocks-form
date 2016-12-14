@@ -58,32 +58,13 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
   public List<String> getValueList() {
     List<String> valueList = new ArrayList<>();
     ViewGroup viewGroup = getView();
-    ControlValueProvider valueProvider = getValueProvider();
-    if (valueProvider != null && valueProvider.getViewIds().size() > 0) {
-      for (Integer viewId : valueProvider.getViewIds()) {
-        ToggleButton toggleButton = (ToggleButton) viewGroup.findViewById(viewId);
+    int count = viewGroup.getChildCount();
+    for (int i = 0; i < count; i++) {
+      View childView = viewGroup.getChildAt(i);
+      if (childView instanceof ToggleButton) {
+        ToggleButton toggleButton = (ToggleButton) childView;
         if (toggleButton.isChecked()) {
-          String viewValue = valueProvider.getValue(viewId);
-          if (viewValue != null) {
-            valueList.add(viewValue);
-            continue;
-          }
-          String textValue = toggleButton.getText().toString();
-          String mappedValue = valueProvider.getValue(textValue);
-          if (mappedValue != null) {
-            valueList.add(mappedValue);
-          }
-        }
-      }
-    } else {
-      int count = viewGroup.getChildCount();
-      for (int i = 0; i < count; i++) {
-        View childView = viewGroup.getChildAt(i);
-        if (childView instanceof ToggleButton) {
-          ToggleButton toggleButton = (ToggleButton) childView;
-          if (toggleButton.isChecked()) {
-            valueList.add(toggleButton.getText().toString());
-          }
+          valueList.add(toggleButton.getText().toString());
         }
       }
     }
@@ -100,23 +81,13 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
 
     ViewGroup viewGroup = getView();
 
-    ControlValueProvider valueProvider = getValueProvider();
-    if (valueProvider != null && valueProvider.getViewIds().size() > 0) {
-      for (Integer viewId : valueProvider.getViewIds()) {
-        ToggleButton toggleButton = (ToggleButton) viewGroup.findViewById(viewId);
-        String value = valueProvider.getValue(viewId);
-        toggleButton.setChecked(value != null && textValueSet.contains(value));
-        toggleButton.setEnabled(valueProvider.isActive(viewId));
-      }
-    } else {
-      int count = viewGroup.getChildCount();
-      for (int i = 0; i < count; i++) {
-        View childView = viewGroup.getChildAt(i);
-        if (childView instanceof ToggleButton) {
-          ToggleButton toggleButton = (ToggleButton) childView;
-          String value = toggleButton.getText().toString();
-          toggleButton.setChecked(textValueSet.contains(value));
-        }
+    int count = viewGroup.getChildCount();
+    for (int i = 0; i < count; i++) {
+      View childView = viewGroup.getChildAt(i);
+      if (childView instanceof ToggleButton) {
+        ToggleButton toggleButton = (ToggleButton) childView;
+        String value = toggleButton.getText().toString();
+        toggleButton.setChecked(textValueSet.contains(value));
       }
     }
   }

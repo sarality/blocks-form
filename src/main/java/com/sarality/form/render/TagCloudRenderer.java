@@ -1,6 +1,9 @@
 package com.sarality.form.render;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.annotation.DrawableRes;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
 import android.widget.ToggleButton;
@@ -18,6 +21,12 @@ import java.util.List;
 
 public class TagCloudRenderer implements ControlRenderer<GridLayout> {
   private ControlValueProvider valueProvider;
+  private int buttonSelectorResourceId;
+
+  //TODO(@Satya) selector doesnt set the width/height correctly, does this need a style?
+  public TagCloudRenderer(int selectorResourceId) {
+    buttonSelectorResourceId = selectorResourceId;
+  }
 
   @Override
   public void setValueProvider(ControlValueProvider valueProvider) {
@@ -45,21 +54,23 @@ public class TagCloudRenderer implements ControlRenderer<GridLayout> {
 
   private class TagRenderer {
     private final ToggleButton toggleButton;
-    private final Activity activity;
+    private final Context context;
     private final GridLayout parentView;
 
-    public TagRenderer(Activity activity, GridLayout parentView, String tagName) {
-      this.activity = activity;
+    public TagRenderer(Context context, GridLayout parentView, String tagName) {
+      this.context = context;
       this.parentView = parentView;
-      toggleButton = new ToggleButton(activity);
-      toggleButton.setBackgroundResource(R.drawable.selector_tags);
+      toggleButton = new ToggleButton(context);
+      toggleButton.setBackgroundResource(buttonSelectorResourceId);
       toggleButton.setTextOn(tagName);
       toggleButton.setTextOff(tagName);
       toggleButton.setChecked(false);
+
     }
 
     public void render() {
-      int colWeight = 3;
+      //TODO(@Satya) determine the column weight dynamically based on the size of the text
+      int colWeight = 4;
       GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1);
       GridLayout.Spec colSpec = GridLayout.spec(GridLayout.UNDEFINED, colWeight, (float) colWeight);
       GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, colSpec);
