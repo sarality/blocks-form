@@ -6,6 +6,7 @@ import com.sarality.form.binding.DatePickerBinding;
 import com.sarality.form.binding.DropDownBinding;
 import com.sarality.form.binding.EditTextBinding;
 import com.sarality.form.binding.RadioButtonGroupBinding;
+import com.sarality.form.binding.TagCloudBinding;
 import com.sarality.form.binding.ViewBindingFactory;
 import com.sarality.form.binding.ViewTagBinding;
 
@@ -21,6 +22,7 @@ public enum InputControl implements ControlType {
   DROP_DOWN(new DropDownBinding.Factory()),
   EDIT_TEXT(new EditTextBinding.Factory()),
   RADIO_BUTTON_GROUP(new RadioButtonGroupBinding.Factory()),
+  TAG_CLOUD(new TagCloudBinding.Factory()),
   VIEW_TAG(new ViewTagBinding.Factory());
 
   private final ViewBindingFactory bindingFactory;
