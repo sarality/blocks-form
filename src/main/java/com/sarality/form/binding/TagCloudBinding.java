@@ -49,6 +49,8 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     // No-op
   }
 
+  //TODO(@Satya) delegate the getting of values to an extractor - should just retrieve the values and pass it to the
+  // read function
   @Override
   public List<String> getValueList() {
     List<String> valueList = new ArrayList<>();
@@ -65,6 +67,8 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     }
     return valueList;
   }
+
+  //TODO(@Satya) delegate the setting of values to the renderer - should just pass the list of values to the renderer
 
   @Override
   public void setValueList(List<String> textValueList) {

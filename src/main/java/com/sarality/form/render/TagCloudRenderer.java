@@ -33,52 +33,46 @@ public class TagCloudRenderer implements ControlRenderer<GridLayout> {
     this.valueProvider = valueProvider;
   }
 
-  @Override public String getFieldValue(String displayValue) {
+  @Override
+  public String getFieldValue(String displayValue) {
     return displayValue;
   }
 
-  @Override public String getDisplayValue(String fieldValue) {
+  @Override
+  public String getDisplayValue(String fieldValue) {
     return fieldValue;
   }
 
-  @Override public void render(Activity activity, GridLayout view) {
+  //TODO(@Satya) render should take in a list of tags to toggle, and then do the following:
+  //highlight the ones that exist
+  //unselect the ones that dont
+  //highlight in colorTagNotDefined any tags that arent in the base ControlValueProvider
+
+  @Override
+  public void render(Activity activity, GridLayout view) {
     List<String> tagList = valueProvider.getValueList();
     //generate all the tags
-    for (String tagName : tagList
-        ) {
-      TagRenderer tagRenderer = new TagRenderer(activity, view, tagName);
-      tagRenderer.render();
+    for (String tagName : tagList) {
+      renderTag(activity, view, tagName);
     }
-
   }
 
-  private class TagRenderer {
-    private final ToggleButton toggleButton;
-    private final Context context;
-    private final GridLayout parentView;
+  private void renderTag(Activity activity, GridLayout view, String tagName) {
 
-    public TagRenderer(Context context, GridLayout parentView, String tagName) {
-      this.context = context;
-      this.parentView = parentView;
-      toggleButton = new ToggleButton(context);
-      toggleButton.setBackgroundResource(buttonSelectorResourceId);
-      toggleButton.setTextOn(tagName);
-      toggleButton.setTextOff(tagName);
-      toggleButton.setChecked(false);
+    ToggleButton toggleButton = new ToggleButton(activity);
+    toggleButton.setBackgroundResource(buttonSelectorResourceId);
+    toggleButton.setTextOn(tagName);
+    toggleButton.setTextOff(tagName);
+    toggleButton.setChecked(false);
 
-    }
-
-    public void render() {
-      //TODO(@Satya) determine the column weight dynamically based on the size of the text
-      int colWeight = 4;
-      GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1);
-      GridLayout.Spec colSpec = GridLayout.spec(GridLayout.UNDEFINED, colWeight, (float) colWeight);
-      GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, colSpec);
-      params.setGravity(Gravity.FILL_HORIZONTAL);
-      params.width = 0;
-      parentView.addView(toggleButton, params);
-    }
-
+    //TODO(@Satya) determine the column weight dynamically based on the size of the text
+    int colWeight = 4;
+    GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1);
+    GridLayout.Spec colSpec = GridLayout.spec(GridLayout.UNDEFINED, colWeight, (float) colWeight);
+    GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, colSpec);
+    params.setGravity(Gravity.FILL_HORIZONTAL);
+    params.width = 0;
+    view.addView(toggleButton, params);
   }
 
 }
