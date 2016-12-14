@@ -31,11 +31,6 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     ViewGroup viewGroup = getView();
     if (spec != null && spec.getValueProvider() != null) {
       ControlValueProvider valueProvider = spec.getValueProvider();
-      for (Integer viewId : valueProvider.getViewIds()) {
-        ToggleButton toggleButton = (ToggleButton) viewGroup.findViewById(viewId);
-        toggleButton.setChecked(valueProvider.getDefaultValue(viewId) != null);
-        toggleButton.setEnabled(valueProvider.isActive(viewId));
-      }
     }
   }
 
