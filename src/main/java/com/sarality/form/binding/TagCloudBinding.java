@@ -3,7 +3,7 @@ package com.sarality.form.binding;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ToggleButton;
+import android.widget.CheckedTextView;
 
 import com.sarality.form.FormField;
 import com.sarality.form.value.ControlValueProvider;
@@ -58,8 +58,8 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     int count = viewGroup.getChildCount();
     for (int i = 0; i < count; i++) {
       View childView = viewGroup.getChildAt(i);
-      if (childView instanceof ToggleButton) {
-        ToggleButton toggleButton = (ToggleButton) childView;
+      if (childView instanceof CheckedTextView) {
+        CheckedTextView toggleButton = (CheckedTextView) childView;
         if (toggleButton.isChecked()) {
           valueList.add(toggleButton.getText().toString());
         }
@@ -83,8 +83,8 @@ public class TagCloudBinding extends BaseViewBinding<ViewGroup> {
     int count = viewGroup.getChildCount();
     for (int i = 0; i < count; i++) {
       View childView = viewGroup.getChildAt(i);
-      if (childView instanceof ToggleButton) {
-        ToggleButton toggleButton = (ToggleButton) childView;
+      if (childView instanceof CheckedTextView) {
+        CheckedTextView toggleButton = (CheckedTextView) childView;
         String value = toggleButton.getText().toString();
         toggleButton.setChecked(textValueSet.contains(value));
       }

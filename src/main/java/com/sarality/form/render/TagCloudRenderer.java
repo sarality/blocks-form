@@ -1,12 +1,10 @@
 package com.sarality.form.render;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.annotation.DrawableRes;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
-import android.widget.ToggleButton;
+import android.view.View;
+import android.widget.CheckedTextView;
 
 import com.sarality.form.R;
 import com.sarality.form.value.ControlValueProvider;
@@ -22,10 +20,16 @@ import java.util.List;
 public class TagCloudRenderer implements ControlRenderer<GridLayout> {
   private ControlValueProvider valueProvider;
   private int buttonSelectorResourceId;
+  private boolean isClickable;
 
   //TODO(@Satya) selector doesnt set the width/height correctly, does this need a style?
   public TagCloudRenderer(int selectorResourceId) {
+    this(selectorResourceId, false);
+  }
+
+  public TagCloudRenderer(int selectorResourceId, boolean displayOnly) {
     buttonSelectorResourceId = selectorResourceId;
+    isClickable = !displayOnly;
   }
 
   @Override
@@ -51,6 +55,8 @@ public class TagCloudRenderer implements ControlRenderer<GridLayout> {
   @Override
   public void render(Activity activity, GridLayout view) {
     List<String> tagList = valueProvider.getValueList();
+    view.removeAllViews();
+    view.invalidate();
     //generate all the tags
     for (String tagName : tagList) {
       renderTag(activity, view, tagName);
@@ -59,20 +65,35 @@ public class TagCloudRenderer implements ControlRenderer<GridLayout> {
 
   private void renderTag(Activity activity, GridLayout view, String tagName) {
 
-    ToggleButton toggleButton = new ToggleButton(activity);
-    toggleButton.setBackgroundResource(buttonSelectorResourceId);
-    toggleButton.setTextOn(tagName);
-    toggleButton.setTextOff(tagName);
-    toggleButton.setChecked(false);
+    final CheckedTextView toggle;
+    toggle = new CheckedTextView(activity);
+    toggle.setText(tagName);
+    toggle.setGravity(Gravity.CENTER);
+    toggle.setBackgroundResource(buttonSelectorResourceId);
+    toggle.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        toggle.setChecked(!toggle.isChecked());
+      }
+    });
 
-    //TODO(@Satya) determine the column weight dynamically based on the size of the text
-    int colWeight = 4;
+    int colSpan;
+
+    int tagLength = tagName.length();
+    if (tagLength >12) {
+      colSpan = 6;
+    } else if (tagLength >9) {
+      colSpan = 4;
+    } else {
+      colSpan = 3;
+    }
+
     GridLayout.Spec rowSpec = GridLayout.spec(GridLayout.UNDEFINED, 1);
-    GridLayout.Spec colSpec = GridLayout.spec(GridLayout.UNDEFINED, colWeight, (float) colWeight);
+    GridLayout.Spec colSpec = GridLayout.spec(GridLayout.UNDEFINED, colSpan);
     GridLayout.LayoutParams params = new GridLayout.LayoutParams(rowSpec, colSpec);
-    params.setGravity(Gravity.FILL_HORIZONTAL);
-    params.width = 0;
-    view.addView(toggleButton, params);
+    params.setGravity(Gravity.LEFT);
+    view.addView(toggle, params);
+
   }
 
 }
