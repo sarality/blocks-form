@@ -9,13 +9,13 @@ class ViewValueTuple {
   private final int viewId;
   private final String value;
   private final String defaultValue;
-  private final boolean isActive;
+  private final boolean isEnabled;
 
-  ViewValueTuple(int viewId, String value, boolean isActive, String defaultValue) {
+  ViewValueTuple(int viewId, String value, boolean isEnabled, String defaultValue) {
     this.viewId = viewId;
     this.value = value;
     this.defaultValue = defaultValue;
-    this.isActive = isActive;
+    this.isEnabled = isEnabled;
   }
 
   int getViewId() {
@@ -30,7 +30,7 @@ class ViewValueTuple {
     return defaultValue;
   }
 
-  boolean isActive() {
-    return isActive;
+  boolean isEnabled() {
+    return isEnabled;
   }
 }
