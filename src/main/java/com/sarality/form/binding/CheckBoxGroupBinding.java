@@ -34,7 +34,7 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
       for (Integer viewId : valueProvider.getViewIds()) {
         ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
         checkBox.setChecked(valueProvider.getDefaultValue(viewId) != null);
-        checkBox.setEnabled(valueProvider.isActive(viewId));
+        checkBox.setEnabled(valueProvider.isEnabled(viewId));
       }
     }
   }
@@ -103,7 +103,7 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
         ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
         String value = valueProvider.getValue(viewId);
         checkBox.setChecked(value != null && textValueSet.contains(value));
-        checkBox.setEnabled(valueProvider.isActive(viewId));
+        checkBox.setEnabled(valueProvider.isEnabled(viewId));
       }
     } else {
       int count = viewGroup.getChildCount();

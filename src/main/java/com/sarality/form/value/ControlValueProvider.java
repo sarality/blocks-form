@@ -26,6 +26,8 @@ public class ControlValueProvider {
   private final List<String> valueList = new ArrayList<>();
   private final Set<String> valueSet = new HashSet<>();
 
+  private boolean isEnabled = true;
+
   private String defaultValue;
   private FieldValue defaultFieldValue;
   private List<String> defaultValueList;
@@ -46,6 +48,11 @@ public class ControlValueProvider {
     if (values != null) {
       valueList.addAll(values);
     }
+  }
+
+  public ControlValueProvider setEnabled(boolean isEnabled) {
+    this.isEnabled = isEnabled;
+    return this;
   }
 
   public ControlValueProvider withDefaultValue(String value) {
@@ -140,9 +147,13 @@ public class ControlValueProvider {
     return mappedValueMap.get(value);
   }
 
-  public boolean isActive(Integer viewId) {
+  public boolean isEnabled() {
+    return isEnabled;
+  }
+
+  public boolean isEnabled(Integer viewId) {
     ViewValueTuple tuple = viewIdTupleMap.get(viewId);
-    return tuple.isActive();
+    return tuple.isEnabled();
   }
 
   public String getDefaultValue(Integer viewId) {
