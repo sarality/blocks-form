@@ -37,7 +37,7 @@ public class DatePickerBinding extends BaseViewBinding<EditText> {
 
   @Override
   ControlRenderer<EditText> getDefaultRenderer() {
-    return new DatePickerRenderer(getViewId());
+    return new DatePickerRenderer();
   }
 
   @Override

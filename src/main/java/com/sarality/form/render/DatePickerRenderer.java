@@ -5,12 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.text.InputType;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.sarality.action.ActionChain;
 import com.sarality.action.ActionContext;
 import com.sarality.action.ClickActions;
 import com.sarality.action.ViewAction;
@@ -40,20 +38,18 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
   private static final String DATE4J_DISPLAY_FORMAT = "DD/MM/YYYY";
   private static final String JAVA_DISPLAY_FORMAT = "dd/MM/yyyy";
 
-  private final int calendarIconId;
   private final String displayFormat;
   private final String javaDisplayFormat;
 
   private ControlValueProvider valueProvider;
 
-  private DatePickerRenderer(int calendarIconId, String displayFormat, String javaDisplayFormat) {
-    this.calendarIconId = calendarIconId;
+  private DatePickerRenderer(String displayFormat, String javaDisplayFormat) {
     this.displayFormat = displayFormat;
     this.javaDisplayFormat = javaDisplayFormat;
   }
 
-  public DatePickerRenderer(int calendarIconId) {
-    this(calendarIconId, DATE4J_DISPLAY_FORMAT, JAVA_DISPLAY_FORMAT);
+  public DatePickerRenderer() {
+    this(DATE4J_DISPLAY_FORMAT, JAVA_DISPLAY_FORMAT);
   }
 
   @Override
@@ -83,19 +79,15 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
   public void render(Activity activity, EditText view) {
     if (valueProvider != null && !valueProvider.isEnabled()) {
       new ClickActions(activity)
-          .register(calendarIconId, null)
           .register(view.getId(), null)
           .init();
       view.setEnabled(false);
-      activity.findViewById(calendarIconId).setEnabled(false);
     } else {
       ViewAction showDatePickAction = new ShowDatePickerAction(activity, view, valueProvider);
       new ClickActions(activity)
-          .register(calendarIconId, showDatePickAction)
           .register(view.getId(), showDatePickAction)
           .init();
       view.setEnabled(true);
-      activity.findViewById(calendarIconId).setEnabled(true);
       view.setInputType(InputType.TYPE_NULL);
     }
   }
@@ -185,20 +177,6 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
         DatePicker datePicker = dialog.getDatePicker();
         onDateSet(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
       }
-    }
-  }
-
-  private class ChangeFocusAction implements ViewAction {
-    private View calendarIconView;
-
-    private ChangeFocusAction(View calendarIconView) {
-      this.calendarIconView = calendarIconView;
-    }
-
-    @Override
-    public boolean perform(ActionContext actionContext) {
-      calendarIconView.requestFocus();
-      return true;
     }
   }
 }
