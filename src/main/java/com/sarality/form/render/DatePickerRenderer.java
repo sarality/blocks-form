@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Build;
+import android.text.InputType;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.sarality.action.ActionChain;
 import com.sarality.action.ActionContext;
 import com.sarality.action.ClickActions;
 import com.sarality.action.ViewAction;
@@ -43,7 +46,7 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
 
   private ControlValueProvider valueProvider;
 
-  public DatePickerRenderer(int calendarIconId, String displayFormat, String javaDisplayFormat) {
+  private DatePickerRenderer(int calendarIconId, String displayFormat, String javaDisplayFormat) {
     this.calendarIconId = calendarIconId;
     this.displayFormat = displayFormat;
     this.javaDisplayFormat = javaDisplayFormat;
@@ -78,8 +81,23 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
 
   @Override
   public void render(Activity activity, EditText view) {
-    new ClickActions(activity).register(calendarIconId,
-        new ShowDatePickerAction(activity, view, valueProvider)).init();
+    if (valueProvider != null && !valueProvider.isEnabled()) {
+      new ClickActions(activity)
+          .register(calendarIconId, null)
+          .register(view.getId(), null)
+          .init();
+      view.setEnabled(false);
+      activity.findViewById(calendarIconId).setEnabled(false);
+    } else {
+      ViewAction showDatePickAction = new ShowDatePickerAction(activity, view, valueProvider);
+      new ClickActions(activity)
+          .register(calendarIconId, showDatePickAction)
+          .register(view.getId(), showDatePickAction)
+          .init();
+      view.setEnabled(true);
+      activity.findViewById(calendarIconId).setEnabled(true);
+      view.setInputType(InputType.TYPE_NULL);
+    }
   }
 
   private DateTime parseDisplayValue(String displayValue) {
@@ -167,6 +185,20 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
         DatePicker datePicker = dialog.getDatePicker();
         onDateSet(datePicker, datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
       }
+    }
+  }
+
+  private class ChangeFocusAction implements ViewAction {
+    private View calendarIconView;
+
+    private ChangeFocusAction(View calendarIconView) {
+      this.calendarIconView = calendarIconView;
+    }
+
+    @Override
+    public boolean perform(ActionContext actionContext) {
+      calendarIconView.requestFocus();
+      return true;
     }
   }
 }
