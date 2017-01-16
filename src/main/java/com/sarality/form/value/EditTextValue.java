@@ -24,6 +24,9 @@ public class EditTextValue implements FieldValue {
 
   @Override
   public String getValue() {
+    if (view == null) {
+      return "";
+    }
     return view.getText().toString();
   }
 }
