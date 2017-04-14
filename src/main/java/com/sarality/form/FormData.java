@@ -111,6 +111,16 @@ public class FormData {
     }
   }
 
+
+
+  public void setBoolean(FormField field, Boolean value) {
+    addValue(field, value.toString());
+  }
+
+  public Boolean getBoolean(FormField field)  {
+    return getValue(field) != null;
+  }
+
   public <T extends Enum<T>> T getEnum(FormField field, Class<T> enumClass) {
     return getEnum(field.getName(), enumClass);
   }
