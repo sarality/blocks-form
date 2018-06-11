@@ -30,12 +30,7 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
     BindingSpec<ViewGroup> spec = config.getBindingSpec();
     ViewGroup viewGroup = getView();
     if (spec != null && spec.getValueProvider() != null) {
-      ControlValueProvider valueProvider = spec.getValueProvider();
-      for (Integer viewId : valueProvider.getViewIds()) {
-        ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
-        checkBox.setChecked(valueProvider.getDefaultValue(viewId) != null);
-        checkBox.setEnabled(valueProvider.isEnabled(viewId));
-      }
+      setValueProvider(spec.getValueProvider());
     }
   }
 
@@ -92,8 +87,7 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
 
   @Override
   public void setValueList(List<String> textValueList) {
-    Set<String> textValueSet = new HashSet<>();
-    textValueSet.addAll(textValueList);
+    Set<String> textValueSet = new HashSet<>(textValueList);
 
     ViewGroup viewGroup = getView();
 
@@ -116,6 +110,17 @@ public class CheckBoxGroupBinding extends BaseViewBinding<ViewGroup> {
         }
       }
     }
+  }
+
+  @Override public void setValueProvider(ControlValueProvider valueProvider) {
+    super.setValueProvider(valueProvider);
+    ViewGroup viewGroup = getView();
+    for (Integer viewId : valueProvider.getViewIds()) {
+      ToggleButton checkBox = (ToggleButton) viewGroup.findViewById(viewId);
+      checkBox.setChecked(valueProvider.getDefaultValue(viewId) != null);
+      checkBox.setEnabled(valueProvider.isEnabled(viewId));
+    }
+
   }
 
   public static class Factory implements ViewBindingFactory {
