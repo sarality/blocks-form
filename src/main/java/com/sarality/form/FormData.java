@@ -39,7 +39,11 @@ public class FormData {
       return value;
     }
     String sanitizedValue = value.replaceAll("[\\r\\n\\t]+", " ");
-    return sanitizedValue.trim().replaceAll("\\s{2,}", " ");
+    // Only trim sanitized value if the length is greater than 1, to preserve single whitespace.
+    if (sanitizedValue.length() > 1) {
+      return sanitizedValue.trim().replaceAll("\\s{2,}", " ");
+    }
+    return sanitizedValue;
   }
 
   public void setString(FormField field, String value) {
