@@ -25,8 +25,21 @@ public class FormData {
     return getString(field.getName());
   }
 
+  public String getString(FormField field, boolean sanitize) {
+    return getString(field.getName(), sanitize);
+  }
+
   public String getString(String fieldName) {
     return getValue(fieldName);
+  }
+
+  public String getString(String fieldName, boolean sanitize) {
+    String value = getValue(fieldName);
+    if (!sanitize || TextUtils.isEmpty(value)) {
+      return value;
+    }
+    String sanitizedValue = value.replaceAll("[\\r\\n\\t]+", " ");
+    return sanitizedValue.trim().replaceAll("\\s{2,}", " ");
   }
 
   public void setString(FormField field, String value) {
