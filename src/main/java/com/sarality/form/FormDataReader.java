@@ -29,6 +29,7 @@ public class FormDataReader {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public void init(Activity activity, View contextView) {
     for (ViewBinding binding : bindingList) {
       binding.initBinding(activity, contextView, null);
