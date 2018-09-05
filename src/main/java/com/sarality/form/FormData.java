@@ -17,6 +17,7 @@ import hirondelle.date4j.DateTime;
 public class FormData {
 
   public static final String DATE_FORMAT = "YYYY-MM-DD";
+  public static final String TIME_FORMAT = "hh:mm:ss";
 
   private final Map<String, String> fieldValueMap = new HashMap<>();
   private final Map<String, List<String>> fieldValueListMap = new HashMap<>();
@@ -128,6 +129,25 @@ public class FormData {
     }
   }
 
+  public DateTime getTime(FormField field) {
+    return getTime(field.getName());
+  }
+
+  public DateTime getTime(String fieldName) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
+      return null;
+    }
+    return new DateTime(value);
+  }
+
+  public void setTime(FormField field, DateTime value) {
+    if (value == null) {
+      addValue(field, null);
+    } else {
+      addValue(field, value.format(TIME_FORMAT));
+    }
+  }
 
 
   public void setBoolean(FormField field, Boolean value) {
