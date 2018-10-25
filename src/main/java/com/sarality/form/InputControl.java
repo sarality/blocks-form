@@ -12,8 +12,11 @@ import com.sarality.form.binding.ViewBindingFactory;
 import com.sarality.form.binding.ViewTagBinding;
 import com.sarality.form.reader.CompoundListReader;
 import com.sarality.form.reader.ControlReaderFactory;
+import com.sarality.form.reader.DatePickerReader;
 import com.sarality.form.reader.DropDownReader;
 import com.sarality.form.reader.EditTextReader;
+import com.sarality.form.reader.RadioButtonGroupReader;
+import com.sarality.form.reader.TimePickerReader;
 import com.sarality.form.reader.ViewTagReader;
 
 /**
@@ -24,12 +27,12 @@ import com.sarality.form.reader.ViewTagReader;
 public enum InputControl implements ControlType {
   CHECK_BOX(new CheckBoxBinding.Factory(), null),
   CHECK_BOX_GROUP(new CheckBoxGroupBinding.Factory(), null),
-  DATE_PICKER(new DatePickerBinding.Factory(), null),
+  DATE_PICKER(new DatePickerBinding.Factory(), new DatePickerReader.Factory()),
   DROP_DOWN(new DropDownBinding.Factory(), new DropDownReader.Factory()),
   EDIT_TEXT(new EditTextBinding.Factory(), new EditTextReader.Factory()),
   COMPOUND_LIST(null, new CompoundListReader.Factory()),
-  RADIO_BUTTON_GROUP(new RadioButtonGroupBinding.Factory(), null),
-  TIME_PICKER(new TimePickerBinding.Factory(), null),
+  RADIO_BUTTON_GROUP(new RadioButtonGroupBinding.Factory(), new RadioButtonGroupReader.Factory()),
+  TIME_PICKER(new TimePickerBinding.Factory(), new TimePickerReader.Factory()),
   TAG_CLOUD(new TagCloudBinding.Factory(), null),
   VIEW_TAG(new ViewTagBinding.Factory(), new ViewTagReader.Factory());
 

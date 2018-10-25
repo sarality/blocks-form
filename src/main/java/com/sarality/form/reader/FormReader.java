@@ -33,6 +33,9 @@ public class FormReader {
     fieldList.addAll(formFieldList);
     for (FormField field : fieldList) {
       ControlReaderFactory readerFactory = field.getControlType().getReaderFactory();
+      if (readerFactory == null) {
+        throw new RuntimeException("No Reader Factory registered for Control : " + field.getControlType());
+      }
       ControlReader reader = readerFactory.createReader(field);
       viewBindingMap.put(field.getName(), reader);
     }
