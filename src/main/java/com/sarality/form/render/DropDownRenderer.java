@@ -23,6 +23,8 @@ public class DropDownRenderer implements ControlRenderer<Spinner> {
   private final ItemRenderer<String> itemRenderer;
   private ControlValueProvider valueProvider;
 
+  private int initialPosition = -1;
+
   private DropDownRenderer(int itemViewId, int listViewId, ItemRenderer<String> itemRenderer) {
     this.itemViewId = itemViewId;
     this.listViewId = listViewId;
@@ -31,6 +33,10 @@ public class DropDownRenderer implements ControlRenderer<Spinner> {
 
   public DropDownRenderer() {
     this(android.R.layout.simple_spinner_item, android.R.layout.simple_spinner_dropdown_item, null);
+  }
+
+  public void setInitialPosition(int initialPosition) {
+    this.initialPosition = initialPosition;
   }
 
   @Override
@@ -54,6 +60,9 @@ public class DropDownRenderer implements ControlRenderer<Spinner> {
       ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, itemViewId, valueProvider.getValueList());
       adapter.setDropDownViewResource(listViewId);
       spinner.setAdapter(adapter);
+      if (initialPosition >= 0) {
+        spinner.setSelection(initialPosition, false);
+      }
       adapter.notifyDataSetChanged();
     }
   }
