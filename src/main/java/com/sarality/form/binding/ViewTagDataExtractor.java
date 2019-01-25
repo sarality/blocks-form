@@ -33,8 +33,14 @@ public class ViewTagDataExtractor extends BaseControlDataExtractor<View> {
   public String extractValue(Activity context, View view) {
     String value;
     if (tagResourceId != null) {
+      if (view.getTag(tagResourceId) == null) {
+        return null;
+      }
       value = String.valueOf(view.getTag(tagResourceId));
     } else {
+      if (view.getTag() == null) {
+        return null;
+      }
       value = String.valueOf(view.getTag());
     }
     return value;
