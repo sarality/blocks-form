@@ -82,7 +82,7 @@ public class DropDownBinding extends BaseViewBinding<Spinner> {
         logger.trace("Matching value {} against Control Value {} with mapped value {} ",
             value, controlValue, mappedValue);
         if (value.equals(mappedValue) || (mappedValue == null && value.equals(controlValue))) {
-          spinner.setSelection(index);
+          spinner.setSelection(index, false);
           break;
         }
         index++;
