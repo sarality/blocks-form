@@ -1,9 +1,7 @@
 package com.sarality.form;
 
-import com.sarality.form.binding.ViewBinding;
 import com.sarality.form.binding.ViewBindingFactory;
-
-import java.util.List;
+import com.sarality.form.reader.ControlReaderFactory;
 
 /**
  * Interface for all Enums that define the types of Fields that can be used in a Form.
@@ -18,4 +16,7 @@ public interface ControlType {
   String getName();
 
   ViewBindingFactory getBindingFactory();
+
+  ControlReaderFactory getReaderFactory();
+
 }

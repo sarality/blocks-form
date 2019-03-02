@@ -132,12 +132,22 @@ public class DatePickerRenderer implements ControlRenderer<EditText> {
       if (date == null) {
         date = DateTime.today(TimeZone.getDefault());
       }
+      DateTime minValue = null;
+      if (defaultValueProvider != null) {
+        String minValueString = defaultValueProvider.getMinValue();
+        if (minValueString != null) {
+          minValue = new DateTime(minValueString);
+        }
+      }
 
       DatePickerListener listener = new DatePickerListener(textView);
       DatePickerDialog dialog = new DatePickerDialog(activity, listener,
           date.getYear(), date.getMonth() - 1, date.getDay());
       dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Set", listener);
       dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Clear", listener);
+      if (minValue != null) {
+        dialog.getDatePicker().setMinDate(minValue.getStartOfDay().getMilliseconds(TimeZone.getDefault()));
+      }
       listener.setDialog(dialog);
       dialog.show();
       return true;

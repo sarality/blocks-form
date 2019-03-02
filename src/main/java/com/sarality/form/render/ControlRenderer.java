@@ -1,7 +1,6 @@
 package com.sarality.form.render;
 
 import android.app.Activity;
-import android.content.Context;
 
 import com.sarality.form.value.ControlValueProvider;
 

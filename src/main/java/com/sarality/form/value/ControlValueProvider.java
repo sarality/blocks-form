@@ -28,6 +28,8 @@ public class ControlValueProvider {
 
   private boolean isEnabled = true;
 
+  private String minValue = null;
+
   private String defaultValue;
   private FieldValue defaultFieldValue;
   private List<String> defaultValueList;
@@ -52,6 +54,11 @@ public class ControlValueProvider {
 
   public ControlValueProvider setEnabled(boolean isEnabled) {
     this.isEnabled = isEnabled;
+    return this;
+  }
+
+  public ControlValueProvider withMinValue(String value) {
+    this.minValue = value;
     return this;
   }
 
@@ -110,6 +117,10 @@ public class ControlValueProvider {
 
   public List<String> getValueList() {
     return valueList;
+  }
+
+  public String getMinValue() {
+    return minValue;
   }
 
   public String getDefaultValue() {

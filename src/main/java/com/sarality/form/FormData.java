@@ -17,9 +17,11 @@ import hirondelle.date4j.DateTime;
 public class FormData {
 
   public static final String DATE_FORMAT = "YYYY-MM-DD";
+  public static final String TIME_FORMAT = "hh:mm:ss";
 
   private final Map<String, String> fieldValueMap = new HashMap<>();
   private final Map<String, List<String>> fieldValueListMap = new HashMap<>();
+  private final Map<String, List<FormData>> formDataListMap = new HashMap<>();
 
   public String getString(FormField field) {
     return getString(field.getName());
@@ -128,6 +130,25 @@ public class FormData {
     }
   }
 
+  public DateTime getTime(FormField field) {
+    return getTime(field.getName());
+  }
+
+  public DateTime getTime(String fieldName) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
+      return null;
+    }
+    return new DateTime(value);
+  }
+
+  public void setTime(FormField field, DateTime value) {
+    if (value == null) {
+      addValue(field, null);
+    } else {
+      addValue(field, value.format(TIME_FORMAT));
+    }
+  }
 
 
   public void setBoolean(FormField field, Boolean value) {
@@ -174,6 +195,34 @@ public class FormData {
     return enumList;
   }
 
+  public <T> List<T> getCompoundList(FormField field, FormDataConverter<T> converter) {
+    List<FormData> valueList = getFormDataList(field.getName());
+    if (valueList == null) {
+      return null;
+    }
+    List<T> dataList = new ArrayList<>();
+    for (FormData value : valueList) {
+      T data = converter.generateDomainData(value);
+      if (data != null) {
+        dataList.add(data);
+      }
+    }
+    return dataList;
+  }
+
+  public <T> void setCompoundList(FormField field, List<T> dataList, FormDataConverter<T> converter) {
+    if (dataList != null) {
+      List<FormData> formDataList = new ArrayList<>();
+      for (T dataValue : dataList) {
+        formDataList.add(converter.generateFormData(dataValue));
+      }
+      addFormDataList(field, formDataList);
+    } else {
+      addValueList(field, null);
+    }
+  }
+
+  // TODO(abhideep): Change name to setEnumList
   public <T extends Enum<T>> void setEnum(FormField field, List<T> enumList) {
     if (enumList != null) {
       List<String> valueList = new ArrayList<>();
@@ -195,6 +244,10 @@ public class FormData {
     fieldValueListMap.put(field.getName(), valueList);
   }
 
+  public void addFormDataList(FormField field, List<FormData> objectList) {
+    formDataListMap.put(field.getName(), objectList);
+  }
+
   public String getValue(FormField field) {
     return getValue(field.getName());
   }
@@ -209,6 +262,10 @@ public class FormData {
 
   private List<String> getValueList(String fieldName) {
     return fieldValueListMap.get(fieldName);
+  }
+
+  private List<FormData> getFormDataList(String fieldName) {
+    return formDataListMap.get(fieldName);
   }
 
   public String displayString(List<FormField> fields) {
