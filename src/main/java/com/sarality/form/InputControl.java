@@ -10,6 +10,7 @@ import com.sarality.form.binding.TagCloudBinding;
 import com.sarality.form.binding.TimePickerBinding;
 import com.sarality.form.binding.ViewBindingFactory;
 import com.sarality.form.binding.ViewTagBinding;
+import com.sarality.form.reader.CheckBoxReader;
 import com.sarality.form.reader.CompoundListReader;
 import com.sarality.form.reader.ControlReaderFactory;
 import com.sarality.form.reader.DatePickerReader;
@@ -25,7 +26,7 @@ import com.sarality.form.reader.ViewTagReader;
  * @author abhideep@ (Abhideep Singh)
  */
 public enum InputControl implements ControlType {
-  CHECK_BOX(new CheckBoxBinding.Factory(), null),
+  CHECK_BOX(new CheckBoxBinding.Factory(), new CheckBoxReader.Factory()),
   CHECK_BOX_GROUP(new CheckBoxGroupBinding.Factory(), null),
   DATE_PICKER(new DatePickerBinding.Factory(), new DatePickerReader.Factory()),
   DROP_DOWN(new DropDownBinding.Factory(), new DropDownReader.Factory()),
