@@ -18,6 +18,7 @@ public class FormData {
 
   public static final String DATE_FORMAT = "YYYY-MM-DD";
   public static final String TIME_FORMAT = "hh:mm:ss";
+  public static final String DATE_TIME_FORMAT = "YYYY-MM-DD hh:mm:ss";
 
   private final Map<String, String> fieldValueMap = new HashMap<>();
   private final Map<String, List<String>> fieldValueListMap = new HashMap<>();
@@ -127,6 +128,22 @@ public class FormData {
       addValue(field, null);
     } else {
       addValue(field, value.format(DATE_FORMAT));
+    }
+  }
+
+  public DateTime getDateTime(String fieldName) {
+    String value = getValue(fieldName);
+    if (TextUtils.isEmpty(value)) {
+      return null;
+    }
+    return new DateTime(value);
+  }
+
+  public void setDateTime(FormField field, DateTime value) {
+    if (value == null) {
+      addValue(field, null);
+    } else {
+      addValue(field, value.format(DATE_TIME_FORMAT));
     }
   }
 
