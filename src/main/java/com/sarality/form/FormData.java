@@ -278,4 +278,14 @@ public class FormData {
     }
     return builder.toString();
   }
+
+  public void clearAll() {
+    fieldValueMap.clear();
+    fieldValueListMap.clear();
+    formDataListMap.clear();
+  }
+
+  public boolean isEmpty() {
+    return fieldValueMap.isEmpty() && fieldValueListMap.isEmpty() && formDataListMap.isEmpty();
+  }
 }
