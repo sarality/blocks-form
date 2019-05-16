@@ -175,6 +175,14 @@ public class FormData {
     addValue(field, value.toString());
   }
 
+  public Boolean getBoolean(FormField field, Boolean defaultValue)  {
+    String value = getValue(field);
+    if (TextUtils.isEmpty(value)) {
+      return defaultValue;
+    }
+    return getBoolean(field);
+  }
+
   public Boolean getBoolean(FormField field)  {
     String value = getValue(field);
     return value != null && !value.equalsIgnoreCase(Boolean.FALSE.toString());
