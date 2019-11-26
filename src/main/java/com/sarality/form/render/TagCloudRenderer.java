@@ -1,16 +1,15 @@
 package com.sarality.form.render;
 
 import android.app.Activity;
-import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.CheckedTextView;
 
-import com.sarality.form.R;
 import com.sarality.form.value.ControlValueProvider;
 
 import java.util.List;
 
+import androidx.gridlayout.widget.GridLayout;
 /**
  * Control Renderer for a Tag Cloud - which is a list of toggle buttons inside a GridLayout
  *
