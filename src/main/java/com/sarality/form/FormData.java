@@ -2,6 +2,8 @@ package com.sarality.form;
 
 import android.text.TextUtils;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,6 +110,15 @@ public class FormData {
       addValue(field, null);
     } else {
       addValue(field, String.valueOf(value));
+    }
+  }
+
+  public void setCurrency(FormField field, Double value) {
+    if (value == null) {
+      addValue(field, null);
+    } else {
+      BigDecimal decimalValue = BigDecimal.valueOf(value).setScale(2, RoundingMode.HALF_DOWN);
+      addValue(field, String.valueOf(decimalValue));
     }
   }
 
